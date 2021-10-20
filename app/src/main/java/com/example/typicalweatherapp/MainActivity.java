@@ -2,23 +2,25 @@ package com.example.typicalweatherapp;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    private boolean backPressedOnce = false;
+    private Toast exitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +31,18 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,
-                R.id.nav_gallery,
-                R.id.nav_slideshow
-        ).setOpenableLayout(drawer).build();
+        binding.appBarMain.toolbarTitle.setText("Saint-Petersburg"); // TEMPO
 
-        NavController navController = Navigation.findNavController(
-                this,
-                R.id.nav_host_fragment_content_main
+        NavigationView navigationView = binding.navView;
+        navigationView.setNavigationItemSelectedListener(this);
+
+        exitToast = Toast.makeText(
+                getApplicationContext(),
+                R.string.press_again_to_exit,
+                Toast.LENGTH_SHORT
         );
-
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     @Override
@@ -56,12 +52,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(
-                this,
-                R.id.nav_host_fragment_content_main
-        );
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            binding.drawerLayout.open();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        TODO
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isOpen()) {
+            binding.drawerLayout.close();
+        } else {
+            if (backPressedOnce) {
+                super.onBackPressed();
+            } else {
+                backPressedOnce = true;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        backPressedOnce = false;
+                    }
+                }, 2000);
+                exitToast.show();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        exitToast.cancel();
     }
 }
