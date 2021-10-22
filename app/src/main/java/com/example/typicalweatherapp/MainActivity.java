@@ -1,8 +1,10 @@
 package com.example.typicalweatherapp;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +17,9 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity
+        extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
 
@@ -29,11 +33,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMain.toolbar);
+        setSupportActionBar(binding.content.appbar.toolbar);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
-        binding.appBarMain.toolbarTitle.setText("Saint-Petersburg"); // TEMPO
+        configureActionBar();
+        configureBackground();
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -43,6 +46,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.press_again_to_exit,
                 Toast.LENGTH_SHORT
         );
+    }
+
+    private void configureActionBar() {
+        setSupportActionBar(binding.content.appbar.toolbar);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        binding.content.appbar.toolbarTitle.setText("Saint-Petersburg"); // TEMPO
+    }
+
+    private void configureBackground() {
+        int themeQualifier =
+                getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        ImageView background = binding.content.imageViewBackground;
+
+        if (themeQualifier == Configuration.UI_MODE_NIGHT_YES) {
+            background.setImageResource(R.drawable.bg_dark);
+        } else {
+            background.setImageResource(R.drawable.bg_light);
+        }
     }
 
     @Override

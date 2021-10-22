@@ -1,47 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="100dp"
+    android:background="@android:color/transparent"
+    android:elevation="0dp"
+    android:gravity="center"
+    android:theme="@style/Theme.TypicalWeatherApp.AppBarOverlay"
+    app:elevation="0dp">
 
-    <ImageView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_light" />
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_baseline_menu_30"
+        app:popupTheme="@style/Theme.TypicalWeatherApp.PopupOverlay">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@android:color/transparent"
-        android:elevation="0dp"
-        android:gravity="center"
-        android:theme="@style/Theme.TypicalWeatherApp.AppBarOverlay"
-        app:elevation="0dp">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Saint-Petersburg" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_baseline_menu_30"
-            app:popupTheme="@style/Theme.TypicalWeatherApp.PopupOverlay">
+    </androidx.appcompat.widget.Toolbar>
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                tools:text="Saint-Petersburg" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.google.android.material.appbar.AppBarLayout>

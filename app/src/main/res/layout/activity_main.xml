@@ -8,9 +8,13 @@
     android:fitsSystemWindows="true">
     <!--    tools:openDrawer="start">-->
 
+    <com.drakeet.drawer.FullDraggableContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <include
-        android:id="@+id/app_bar_main"
-        layout="@layout/app_bar_main"
+        android:id="@+id/content"
+        layout="@layout/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
