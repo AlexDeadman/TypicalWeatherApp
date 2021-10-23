@@ -14,4 +14,5 @@
     <string name="favourite">Favourite</string>
     <string name="about">About</string>
     <string name="press_again_to_exit">Press again to exit</string>
+    <string name="week_forecast">Week forecast</string>
 </resources>

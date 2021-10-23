@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="70dp"
+    android:layout_height="130dp"
+    android:layout_marginHorizontal="13dp"
+    app:cardBackgroundColor="?android:background"
+    app:cardCornerRadius="10dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_card_weather_time"
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_marginTop="7dp"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            tools:text="00:00" />
+
+        <ImageView
+            android:id="@+id/image_view_card_weather"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="11dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/partly_cloudy"/>
+
+        <TextView
+            android:id="@+id/text_view_card_weather_degrees"
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_marginTop="13dp"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            tools:text="12˚C"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

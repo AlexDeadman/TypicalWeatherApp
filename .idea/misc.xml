@@ -31,6 +31,13 @@
         <entry key="..\:/Users/Alexus/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/menu/main.xml" value="0.3671875" />
         <entry key="..\:/Users/Alexus/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2655" />
         <entry key="..\:/Users/Alexus/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2655" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/drawable/round.xml" value="0.2845" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/activity_main.xml" value="0.2879999900124293" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/app_bar_main.xml" value="0.29583333333333334" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/bottom_sheet_main.xml" value="0.4363636212309535" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/card_info.xml" value="0.5847272524494778" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/card_time_weather.xml" value="0.2879999900124293" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/content_main.xml" value="0.29583333333333334" />
       </map>
     </option>
   </component>

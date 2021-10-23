@@ -11,12 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/bg_light"/>
+        tools:src="@drawable/bg_light" />
 
     <include
         android:id="@+id/appbar"
-        layout="@layout/app_bar_main"/>
+        layout="@layout/app_bar_main" />
 
-    <include layout="@layout/bottom_sheet_main" />
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/transparent"
+        android:textAlignment="center"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="80sp"
+        tools:text="12˚C" />
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="180dp"
+        android:background="@android:color/transparent"
+        android:textAlignment="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        tools:text="September 23" />
+
+    <include
+        android:id="@+id/bottom_sheet"
+        layout="@layout/bottom_sheet_main" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,13 +4,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -46,14 +50,36 @@ public class MainActivity
                 R.string.press_again_to_exit,
                 Toast.LENGTH_SHORT
         );
+
+        // TEMPO
+        BottomSheetBehavior<LinearLayoutCompat> bottomSheet = BottomSheetBehavior.from(
+                binding.content.bottomSheet.getRoot()
+        );
+
+        bottomSheet.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
+                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                        button.setVisibility(View.GONE);
+                    }
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+                        button.setVisibility(View.VISIBLE);
+                    }
+//                    TODO Анимации (опционально)
+//                    button.animate().scaleX(0).scaleY(0).setDuration(300).start();
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) { }
+            }
+        );
+
     }
 
     private void configureActionBar() {
         setSupportActionBar(binding.content.appbar.toolbar);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
-        binding.content.appbar.toolbarTitle.setText("Saint-Petersburg"); // TEMPO
     }
 
     private void configureBackground() {
