@@ -41,6 +41,7 @@ public class MainActivity
 
         configureActionBar();
         configureBackground();
+        configureBottomSheet();
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -50,31 +51,6 @@ public class MainActivity
                 R.string.press_again_to_exit,
                 Toast.LENGTH_SHORT
         );
-
-        // TEMPO
-        BottomSheetBehavior<LinearLayoutCompat> bottomSheet = BottomSheetBehavior.from(
-                binding.content.bottomSheet.getRoot()
-        );
-
-        bottomSheet.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
-                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                        button.setVisibility(View.GONE);
-                    }
-                    if (newState == BottomSheetBehavior.STATE_COLLAPSED){
-                        button.setVisibility(View.VISIBLE);
-                    }
-//                    TODO Анимации (опционально)
-//                    button.animate().scaleX(0).scaleY(0).setDuration(300).start();
-                }
-
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) { }
-            }
-        );
-
     }
 
     private void configureActionBar() {
@@ -83,8 +59,7 @@ public class MainActivity
     }
 
     private void configureBackground() {
-        int themeQualifier =
-                getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        int themeQualifier = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
         ImageView background = binding.content.imageViewBackground;
 
@@ -93,6 +68,37 @@ public class MainActivity
         } else {
             background.setImageResource(R.drawable.bg_light);
         }
+    }
+
+    private void configureBottomSheet() {
+        BottomSheetBehavior<LinearLayoutCompat> bottomSheet = BottomSheetBehavior.from(
+                binding.content.bottomSheet.getRoot()
+        );
+
+        bottomSheet.addBottomSheetCallback(
+                new BottomSheetBehavior.BottomSheetCallback() {
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) { }
+
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                        MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
+                        LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
+                        if (slideOffset > 0) {
+                            button.setAlpha(1 - 2 * slideOffset);
+                            infoLayout.setAlpha(slideOffset * slideOffset);
+
+                            if (slideOffset > 0.5) {
+                                button.setVisibility(View.GONE);
+                                infoLayout.setVisibility(View.VISIBLE);
+                            } else {
+                                button.setVisibility(View.VISIBLE);
+                                infoLayout.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+        );
     }
 
     @Override
