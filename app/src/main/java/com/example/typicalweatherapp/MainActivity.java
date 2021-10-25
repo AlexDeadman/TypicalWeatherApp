@@ -75,25 +75,42 @@ public class MainActivity
                 binding.content.bottomSheet.getRoot()
         );
 
+        MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
+        LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
+
         bottomSheet.addBottomSheetCallback(
                 new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
-                    public void onStateChanged(@NonNull View bottomSheet, int newState) { }
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+                        // На случай, если onSlide не успевает отрабатывать.
+                        // Возможно что-то не так с формулой alpha у button
+
+                        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                            infoLayout.setVisibility(View.GONE);
+                            button.setVisibility(View.VISIBLE);
+                            button.setAlpha(1);
+                        }
+
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            infoLayout.setVisibility(View.VISIBLE);
+                            button.setVisibility(View.GONE);
+                            button.setAlpha(0);
+                        }
+                    }
 
                     @Override
                     public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                        MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
-                        LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
                         if (slideOffset > 0) {
                             button.setAlpha(1 - 2 * slideOffset);
                             infoLayout.setAlpha(slideOffset * slideOffset);
 
                             if (slideOffset > 0.5) {
-                                button.setVisibility(View.GONE);
                                 infoLayout.setVisibility(View.VISIBLE);
+                                button.setVisibility(View.GONE);
                             } else {
-                                button.setVisibility(View.VISIBLE);
                                 infoLayout.setVisibility(View.GONE);
+                                button.setVisibility(View.VISIBLE);
                             }
                         }
                     }
