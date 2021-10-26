@@ -6,10 +6,11 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">#AAAAAA</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
-        <item name="android:background">#0C162B</item>
+        <item name="android:background">@color/bg_night</item>
+<!--        <item name="android:navigationBarColor">@color/bg_night</item>-->
     </style>
 </resources>

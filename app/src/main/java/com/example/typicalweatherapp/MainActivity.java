@@ -1,5 +1,6 @@
 package com.example.typicalweatherapp;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -135,7 +136,9 @@ public class MainActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        TODO
+        if (item.getItemId() == R.id.nav_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }
         return false;
     }
 

@@ -15,4 +15,11 @@
     <string name="about">About</string>
     <string name="press_again_to_exit">Press again to exit</string>
     <string name="week_forecast">Week forecast</string>
+    <string name="units">Units</string>
+    <string name="temperature">Temperature</string>
+    <string name="wind_force">Wind force</string>
+    <string name="pressure">Pressure</string>
+    <string name="language">Language</string>
+    <string name="system">System</string>
+    <string name="color_theme">Color theme</string>
 </resources>
