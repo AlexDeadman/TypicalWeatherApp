@@ -11,6 +11,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
         <item name="android:background">@color/bg_night</item>
-<!--        <item name="android:navigationBarColor">@color/bg_night</item>-->
+    </style>
+
+    <style name="PreferencesTheme" parent="Theme.TypicalWeatherApp">
+        <item name="android:windowBackground">@color/bg_night</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 </resources>

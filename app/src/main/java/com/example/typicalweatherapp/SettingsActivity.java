@@ -1,5 +1,6 @@
 package com.example.typicalweatherapp;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,9 +19,15 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.settings);
+            actionBar.setBackgroundDrawable(
+                    new ColorDrawable(getResources().getColor(R.color.transparent))
+            );
+            actionBar.setElevation(0);
         }
     }
 

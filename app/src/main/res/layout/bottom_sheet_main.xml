@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
+    android:animateLayoutChanges="true"
     android:background="@drawable/round"
     android:orientation="vertical"
     app:behavior_peekHeight="250dp"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    tools:layout_height="match_parent">
 
     <View
         android:layout_width="60dp"
@@ -60,8 +62,10 @@
         android:id="@+id/layout_info_cards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
-        android:layout_marginTop="32dp">
+        android:visibility="invisible"
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

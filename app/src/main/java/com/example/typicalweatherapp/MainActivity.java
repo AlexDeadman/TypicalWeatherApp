@@ -1,5 +1,6 @@
 package com.example.typicalweatherapp;
 
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -75,49 +76,41 @@ public class MainActivity
     }
 
     private void configureBottomSheet() {
-        BottomSheetBehavior<LinearLayoutCompat> bottomSheet = BottomSheetBehavior.from(
-                binding.content.bottomSheet.getRoot()
+        LayoutTransition transition = new LayoutTransition();
+        transition.setAnimateParentHierarchy(false);
+
+        LinearLayoutCompat bottomSheetLayout = binding.content.bottomSheet.getRoot();
+
+        bottomSheetLayout.setLayoutTransition(transition);
+
+        BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior = BottomSheetBehavior.from(
+                bottomSheetLayout
         );
 
         MaterialButton button = binding.content.bottomSheet.buttonWeatherForecast;
         LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
 
-        bottomSheet.addBottomSheetCallback(
+        bottomSheetBehavior.addBottomSheetCallback(
                 new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
                     public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-                        // На случай, если onSlide не успевает отрабатывать.
-                        // Возможно что-то не так с формулой alpha у button
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            if (button.getVisibility() != View.GONE) {
+                                button.setVisibility(View.INVISIBLE);
+                            }
+                            button.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.VISIBLE);
+                        }
 
                         if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                            infoLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.INVISIBLE);
                             button.setVisibility(View.VISIBLE);
-                            button.setAlpha(1);
                         }
 
-                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                            infoLayout.setVisibility(View.VISIBLE);
-                            button.setVisibility(View.GONE);
-                            button.setAlpha(0);
-                        }
                     }
 
                     @Override
-                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                        if (slideOffset > 0) {
-                            button.setAlpha(1 - 2 * slideOffset);
-                            infoLayout.setAlpha(slideOffset * slideOffset);
-
-                            if (slideOffset > 0.5) {
-                                infoLayout.setVisibility(View.VISIBLE);
-                                button.setVisibility(View.GONE);
-                            } else {
-                                infoLayout.setVisibility(View.GONE);
-                                button.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) { }
                 }
         );
     }
