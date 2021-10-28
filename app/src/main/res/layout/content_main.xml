@@ -13,7 +13,44 @@
         android:scaleType="centerCrop"
         tools:src="@drawable/bg_light" />
 
+    <soup.neumorphism.NeumorphButton
+        android:scaleX="0.4"
+        android:scaleY="0.4"
+        android:layout_gravity="start"
+        android:layout_marginTop="-30dp"
+        android:layout_marginStart="-50dp"
+        app:neumorph_shadowColorLight="#26FFFFFF"
+        app:neumorph_shadowColorDark="#33000000"
+        android:drawableTop="@drawable/ic_baseline_menu"
+        android:padding="50dp"
+        app:neumorph_inset="35dp"
+        app:neumorph_shadowElevation="10dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:neumorph_shapeAppearance="@style/CustomShapeAppearance"/>
+
+    <soup.neumorphism.NeumorphButton
+        android:scaleX="0.4"
+        android:scaleY="0.4"
+        android:layout_gravity="end"
+        android:layout_marginTop="-30dp"
+        android:layout_marginEnd="-50dp"
+        app:neumorph_shadowColorLight="#26FFFFFF"
+        app:neumorph_shadowColorDark="#33000000"
+        android:drawableTop="@drawable/ic_outline_add_circle_outline"
+        android:padding="50dp"
+        app:neumorph_inset="35dp"
+        app:neumorph_shadowElevation="10dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:neumorph_shapeAppearance="@style/CustomShapeAppearance"/>
+
+<!--    <include-->
+<!--        android:id="@+id/appbar"-->
+<!--        layout="@layout/new_app_bar"/>-->
+
     <include
+        android:visibility="gone"
         android:id="@+id/appbar"
         layout="@layout/app_bar_main" />
 

@@ -15,7 +15,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_baseline_menu_30"
+        app:navigationIcon="@drawable/ic_baseline_menu"
         app:popupTheme="@style/Theme.TypicalWeatherApp.PopupOverlay">
 
         <TextView

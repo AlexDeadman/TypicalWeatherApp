@@ -11,7 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
         <item name="android:background">@color/bg_light</item>
-<!--        <item name="android:navigationBarColor">@color/bg_light</item>-->
+        <!--        <item name="android:navigationBarColor">@color/bg_light</item>-->
     </style>
 
     <style name="Theme.TypicalWeatherApp.NoActionBar">
@@ -25,4 +25,8 @@
     </style>
 
     <style name="Theme.TypicalWeatherApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomShapeAppearance">
+        <item name="neumorph_cornerFamily">oval</item>
+    </style>
 </resources>

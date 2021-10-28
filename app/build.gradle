@@ -46,6 +46,10 @@ dependencies {
     // FullDraggableDrawer
     implementation 'com.drakeet.drawer:drawer:1.0.3'
 
+    // Neumorphic
+    implementation 'com.github.sshadkany:Android_neumorphic:1.2.0'
+    implementation 'com.github.fornewid:neumorphism:0.3.0'
+
     // Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
