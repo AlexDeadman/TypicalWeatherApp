@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#828282</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">#4B5F88</item>
+        <item name="colorSecondaryVariant">#828282</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
@@ -28,12 +28,31 @@
 
     <style name="Theme.TypicalWeatherApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="CustomShapeAppearance">
+    <style name="CircleShapeAppearance">
         <item name="neumorph_cornerFamily">oval</item>
+    </style>
+
+    <style name="CardsShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">12dp</item>
+    </style>
+
+    <style name="PreferenceCardsShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">35dp</item>
+    </style>
+
+    <style name="CardStyle" parent="Theme.TypicalWeatherApp">
+        <item name="neumorph_shadowColorDark">@color/card_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">@color/card_shadow_light</item>
     </style>
 
     <style name="PreferencesTheme" parent="Theme.TypicalWeatherApp">
         <item name="android:windowBackground">@color/bg_light</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="DrawerTextAppearance">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

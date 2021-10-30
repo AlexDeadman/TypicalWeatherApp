@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
@@ -20,16 +19,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class MainActivity
         extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
 
-    private boolean backPressedOnce = false;
     private Toast exitToast;
 
     @Override
@@ -39,9 +34,6 @@ public class MainActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.content.appbar.toolbar);
-
-        configureActionBar();
         configureBackground();
         configureBottomSheet();
 
@@ -53,14 +45,6 @@ public class MainActivity
                 R.string.press_again_to_exit,
                 Toast.LENGTH_SHORT
         );
-    }
-
-    private void configureActionBar() {
-        setSupportActionBar(binding.content.appbar.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
     }
 
     private void configureBackground() {
@@ -143,18 +127,8 @@ public class MainActivity
         if (binding.drawerLayout.isOpen()) {
             binding.drawerLayout.close();
         } else {
-            if (backPressedOnce) {
-                super.onBackPressed();
-            } else {
-                backPressedOnce = true;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        backPressedOnce = false;
-                    }
-                }, 2000);
-                exitToast.show();
-            }
+            // можно добавить закрытие bottom sheet
+            super.onBackPressed();
         }
     }
 

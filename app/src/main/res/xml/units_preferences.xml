@@ -2,49 +2,31 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/units">
-
+    <PreferenceCategory>
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_thermometer"
             app:key="units_temp"
             app:summaryOff="˚C"
             app:summaryOn="˚F"
             app:title="@string/temperature" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_breeze"
             app:key="units_wind"
             app:summaryOff="m/s"
             app:summaryOn="km/h"
             app:title="@string/wind_force" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_barometer"
             app:key="units_pressure"
             app:summaryOff="mmHg"
             app:summaryOn="hPa"
             app:title="@string/pressure" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/system">
-
-        <ListPreference
-            android:defaultValue="en"
-            android:entries="@array/language_entries"
-            android:entryValues="@array/language_values"
-            app:key="lang"
-            app:title="@string/language"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            android:defaultValue="sys"
-            android:entries="@array/theme_entries"
-            android:entryValues="@array/theme_values"
-            app:key="theme"
-            app:title="@string/color_theme"
-            app:useSimpleSummaryProvider="true" />
-
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

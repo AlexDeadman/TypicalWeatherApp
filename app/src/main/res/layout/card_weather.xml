@@ -2,16 +2,18 @@
 <soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="70dp"
-    android:layout_height="130dp"
-    app:neumorph_shadowElevation="3dp"
-    android:layout_marginHorizontal="13dp"
+    style="@style/CardStyle"
+    android:layout_width="100dp"
+    android:layout_height="160dp"
     app:cardBackgroundColor="?android:background"
-    app:cardCornerRadius="10dp">
+    app:neumorph_inset="15dp"
+    app:neumorph_shadowElevation="5dp"
+    app:neumorph_shapeAppearance="@style/CardsShapeAppearance">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -21,17 +23,17 @@
             android:layout_marginTop="7dp"
             android:maxLength="5"
             android:maxLines="1"
-            android:textSize="17sp"
             android:textAlignment="center"
+            android:textSize="17sp"
             tools:text="00:00" />
 
         <ImageView
             android:id="@+id/image_view_card_weather"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="11dp"
             android:layout_gravity="center"
-            tools:src="@drawable/partly_cloudy"/>
+            android:layout_marginTop="11dp"
+            tools:src="@drawable/partly_cloudy" />
 
         <TextView
             android:id="@+id/text_view_card_weather_degrees"
@@ -40,9 +42,9 @@
             android:layout_marginTop="13dp"
             android:maxLength="5"
             android:maxLines="1"
-            android:textSize="17sp"
             android:textAlignment="center"
-            tools:text="12˚C"/>
+            android:textSize="17sp"
+            tools:text="12˚C" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </soup.neumorphism.NeumorphCardView>

@@ -2,12 +2,13 @@
 <soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="166dp"
-    android:layout_height="70dp"
-    app:neumorph_shadowElevation="3dp"
-    android:layout_marginHorizontal="13dp"
+    style="@style/CardStyle"
+    android:layout_width="196dp"
+    android:layout_height="100dp"
     app:cardBackgroundColor="?android:background"
-    app:cardCornerRadius="10dp">
+    app:neumorph_inset="15dp"
+    app:neumorph_shadowElevation="5dp"
+    app:neumorph_shapeAppearance="@style/CardsShapeAppearance">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -20,17 +21,18 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            tools:src="@drawable/ic_thermometer"/>
+            tools:src="@drawable/ic_thermometer" />
 
         <TextView
             android:id="@+id/text_view_card_info"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="23dp"
-            android:maxLength="5"
-            android:maxLines="1"
-            android:textSize="17sp"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
+            android:maxLines="1"
             android:textAlignment="center"
+            android:textSize="17sp"
+            android:ellipsize="end"
             tools:text="12˚C" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

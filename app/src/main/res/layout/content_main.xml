@@ -14,45 +14,49 @@
         tools:src="@drawable/bg_light" />
 
     <soup.neumorphism.NeumorphButton
-        android:scaleX="0.4"
-        android:scaleY="0.4"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="start"
+        android:layout_marginStart="-55dp"
         android:layout_marginTop="-30dp"
-        android:layout_marginStart="-50dp"
-        app:neumorph_shadowColorLight="#26FFFFFF"
-        app:neumorph_shadowColorDark="#33000000"
         android:drawableTop="@drawable/ic_baseline_menu"
         android:padding="50dp"
+        android:scaleX="0.35"
+        android:scaleY="0.35"
         app:neumorph_inset="35dp"
+        app:neumorph_shadowColorDark="@color/circle_shadow_dark"
+        app:neumorph_shadowColorLight="@color/circle_shadow_light"
         app:neumorph_shadowElevation="10dp"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:neumorph_shapeAppearance="@style/CustomShapeAppearance"/>
+        app:neumorph_shapeAppearance="@style/CircleShapeAppearance" />
 
     <soup.neumorphism.NeumorphButton
-        android:scaleX="0.4"
-        android:scaleY="0.4"
-        android:layout_gravity="end"
-        android:layout_marginTop="-30dp"
-        android:layout_marginEnd="-50dp"
-        app:neumorph_shadowColorLight="#26FFFFFF"
-        app:neumorph_shadowColorDark="#33000000"
-        android:drawableTop="@drawable/ic_outline_add_circle_outline"
-        android:padding="50dp"
-        app:neumorph_inset="35dp"
-        app:neumorph_shadowElevation="10dp"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:neumorph_shapeAppearance="@style/CustomShapeAppearance"/>
+        android:layout_gravity="end"
+        android:layout_marginTop="-30dp"
+        android:layout_marginEnd="-55dp"
+        android:drawableTop="@drawable/ic_outline_add_circle_outline"
+        android:padding="50dp"
+        android:scaleX="0.35"
+        android:scaleY="0.35"
+        app:neumorph_inset="35dp"
+        app:neumorph_shadowColorDark="@color/circle_shadow_dark"
+        app:neumorph_shadowColorLight="@color/circle_shadow_light"
+        app:neumorph_shadowElevation="10dp"
+        app:neumorph_shapeAppearance="@style/CircleShapeAppearance" />
 
-<!--    <include-->
-<!--        android:id="@+id/appbar"-->
-<!--        layout="@layout/new_app_bar"/>-->
-
-    <include
-        android:visibility="gone"
-        android:id="@+id/appbar"
-        layout="@layout/app_bar_main" />
+    <TextView
+        android:layout_width="215dp"
+        android:layout_height="45dp"
+        android:background="@color/transparent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:textSize="27sp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Saint-Petersburg"/>
 
     <TextView
         android:layout_width="250dp"
@@ -60,9 +64,9 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
         android:background="@android:color/transparent"
-        android:textAlignment="center"
         android:maxLength="5"
         android:maxLines="1"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="80sp"
         tools:text="12˚C" />
@@ -70,15 +74,15 @@
 
     <TextView
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="180dp"
         android:background="@android:color/transparent"
-        android:textAlignment="center"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="26sp"
         tools:text="September 23" />
 
     <include
