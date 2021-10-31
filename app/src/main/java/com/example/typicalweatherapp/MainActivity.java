@@ -18,14 +18,13 @@ import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.savvyapps.togglebuttonlayout.ToggleButtonLayout;
 
 public class MainActivity
         extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
-
-    private Toast exitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +39,9 @@ public class MainActivity
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
 
-        exitToast = Toast.makeText(
-                getApplicationContext(),
-                R.string.press_again_to_exit,
-                Toast.LENGTH_SHORT
-        );
+        binding.content.buttonMenu.setOnClickListener(l -> binding.drawerLayout.open());
+
+        binding.content.toggleButton.setToggled(R.id.toggle_c, true);
     }
 
     private void configureBackground() {
@@ -135,6 +132,5 @@ public class MainActivity
     @Override
     protected void onStop() {
         super.onStop();
-        exitToast.cancel();
     }
 }

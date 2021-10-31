@@ -54,7 +54,7 @@
         android:textAllCaps="false"
         android:textSize="13sp"
         app:cornerRadius="10dp"
-        app:strokeColor="?colorPrimary"
+        app:strokeColor="?attr/colorPrimary"
         app:strokeWidth="2dp"
         tools:ignore="TouchTargetSizeCheck" />
 

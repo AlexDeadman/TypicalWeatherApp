@@ -13,7 +13,20 @@
         android:scaleType="centerCrop"
         tools:src="@drawable/bg_light" />
 
+    <com.savvyapps.togglebuttonlayout.ToggleButtonLayout
+        android:id="@+id/toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        app:allowDeselection="false"
+        app:cardCornerRadius="30dp"
+        app:customLayout="@layout/toggle_text"
+        app:menu="@menu/temperature_toggles"
+        app:selectedColor="?attr/colorSecondary" />
+
     <soup.neumorphism.NeumorphButton
+        android:id="@+id/button_menu"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="start"
@@ -48,15 +61,15 @@
     <TextView
         android:layout_width="215dp"
         android:layout_height="45dp"
-        android:background="@color/transparent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:textSize="27sp"
-        android:textColor="@color/white"
-        android:textAlignment="center"
+        android:background="@color/transparent"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="Saint-Petersburg"/>
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="27sp"
+        tools:text="Saint-Petersburg" />
 
     <TextView
         android:layout_width="250dp"
