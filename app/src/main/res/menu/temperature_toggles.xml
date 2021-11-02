@@ -3,9 +3,9 @@
 
     <item
         android:id="@+id/toggle_c"
-        android:title="˚C" />
+        android:title="@string/c" />
 
     <item
         android:id="@+id/toggle_f"
-        android:title="˚F"/>
+        android:title="@string/f"/>
 </menu>

@@ -21,7 +21,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            tools:src="@drawable/ic_thermometer" />
+            tools:src="@drawable/ic_thermometer"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/text_view_card_info"
@@ -29,10 +30,10 @@
             android:layout_height="23dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
+            android:ellipsize="end"
             android:maxLines="1"
             android:textAlignment="center"
             android:textSize="17sp"
-            android:ellipsize="end"
             tools:text="12˚C" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

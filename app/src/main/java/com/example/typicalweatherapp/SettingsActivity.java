@@ -1,20 +1,26 @@
 package com.example.typicalweatherapp;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.example.typicalweatherapp.databinding.ActivitySettingsBinding;
+
 public class SettingsActivity extends AppCompatActivity {
+
+    private ActivitySettingsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -22,16 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.general_settings, SettingsFragment.newInstance(R.xml.general_preferences))
                     .commit();
         }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.settings);
-            actionBar.setBackgroundDrawable(
-                    new ColorDrawable(getResources().getColor(R.color.transparent))
-            );
-            actionBar.setElevation(0);
-        }
+        Utils.configureActionBar(getSupportActionBar(), getString(R.string.settings));
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

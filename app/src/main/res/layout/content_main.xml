@@ -4,14 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <ImageView
-        android:id="@+id/image_view_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/bg_light" />
+    tools:background="@drawable/bg_light">
 
     <com.savvyapps.togglebuttonlayout.ToggleButtonLayout
         android:id="@+id/toggle_button"
@@ -19,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="100dp"
+        android:visibility="gone"
         app:allowDeselection="false"
         app:cardCornerRadius="30dp"
         app:customLayout="@layout/toggle_text"
@@ -27,76 +21,82 @@
 
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button_menu"
+        style="@style/CircleButtonStyle"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="start"
         android:layout_marginStart="-55dp"
         android:layout_marginTop="-30dp"
+        android:clickable="true"
         android:drawableTop="@drawable/ic_baseline_menu"
+        android:focusable="true"
         android:padding="50dp"
         android:scaleX="0.35"
         android:scaleY="0.35"
         app:neumorph_inset="35dp"
-        app:neumorph_shadowColorDark="@color/circle_shadow_dark"
-        app:neumorph_shadowColorLight="@color/circle_shadow_light"
         app:neumorph_shadowElevation="10dp"
-        app:neumorph_shapeAppearance="@style/CircleShapeAppearance" />
+        app:neumorph_shapeAppearance="@style/CircleButtonShapeAppearance" />
 
     <soup.neumorphism.NeumorphButton
+        android:id="@+id/button_add_city"
+        style="@style/CircleButtonStyle"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="end"
         android:layout_marginTop="-30dp"
         android:layout_marginEnd="-55dp"
+        android:clickable="true"
         android:drawableTop="@drawable/ic_outline_add_circle_outline"
+        android:focusable="true"
         android:padding="50dp"
         android:scaleX="0.35"
         android:scaleY="0.35"
         app:neumorph_inset="35dp"
-        app:neumorph_shadowColorDark="@color/circle_shadow_dark"
-        app:neumorph_shadowColorLight="@color/circle_shadow_light"
         app:neumorph_shadowElevation="10dp"
-        app:neumorph_shapeAppearance="@style/CircleShapeAppearance" />
+        app:neumorph_shapeAppearance="@style/CircleButtonShapeAppearance" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="215dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:background="@color/transparent"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="27sp"
-        tools:text="Saint-Petersburg" />
-
-    <TextView
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
         android:background="@android:color/transparent"
-        android:maxLength="5"
-        android:maxLines="1"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="80sp"
-        tools:text="12˚C" />
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="27sp"
+            tools:text="Saint-Petersburg" />
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="180dp"
-        android:background="@android:color/transparent"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        tools:text="September 23" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="80sp"
+            tools:text="12˚C" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            tools:text="September 23" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/bottom_sheet"
