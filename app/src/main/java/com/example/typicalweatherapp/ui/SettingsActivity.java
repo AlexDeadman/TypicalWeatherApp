@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp;
+package com.example.typicalweatherapp.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.utils.UiUtils;
 import com.example.typicalweatherapp.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.general_settings, SettingsFragment.newInstance(R.xml.general_preferences))
                     .commit();
         }
-        Utils.configureActionBar(getSupportActionBar(), getString(R.string.settings));
+        UiUtils.initActionBar(getSupportActionBar(), getString(R.string.settings));
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

@@ -34,7 +34,7 @@
         android:scaleX="0.35"
         android:scaleY="0.35"
         app:neumorph_inset="35dp"
-        app:neumorph_shadowElevation="10dp"
+        app:neumorph_shadowElevation="11dp"
         app:neumorph_shapeAppearance="@style/CircleButtonShapeAppearance" />
 
     <soup.neumorphism.NeumorphButton
@@ -52,7 +52,7 @@
         android:scaleX="0.35"
         android:scaleY="0.35"
         app:neumorph_inset="35dp"
-        app:neumorph_shadowElevation="10dp"
+        app:neumorph_shadowElevation="11dp"
         app:neumorph_shapeAppearance="@style/CircleButtonShapeAppearance" />
 
     <LinearLayout

@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp;
+package com.example.typicalweatherapp.ui;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -26,8 +26,6 @@ public class MainActivity
 
     private ActivityMainBinding binding;
 
-    private Toast notImplementedToast;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +33,8 @@ public class MainActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        configureBackground();
-        configureBottomSheet();
+        initBackground();
+        initBottomSheet();
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -45,21 +43,19 @@ public class MainActivity
 
         binding.content.toggleButton.setToggled(R.id.toggle_c, true);
 
-        notImplementedToast = Toast.makeText(
-                getApplicationContext(),
-                "Not implemented",
-                Toast.LENGTH_SHORT
-        );
-
         binding.content.bottomSheet.buttonWeekForecast.setOnClickListener(
-                v -> notImplementedToast.show()
+                v -> {
+//                    TODO
+                }
         );
         binding.content.buttonAddCity.setOnClickListener(
-                v -> notImplementedToast.show()
+                v -> {
+//                    TODO
+                }
         );
     }
 
-    private void configureBackground() {
+    private void initBackground() {
         int themeQualifier = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
         CoordinatorLayout content = binding.content.getRoot();
@@ -71,7 +67,7 @@ public class MainActivity
         }
     }
 
-    private void configureBottomSheet() {
+    private void initBottomSheet() {
         LayoutTransition transition = new LayoutTransition();
         transition.setAnimateParentHierarchy(false);
 
@@ -120,7 +116,7 @@ public class MainActivity
             startActivity(new Intent(this, SettingsActivity.class));
         }
         if (itemId == R.id.nav_favourite) {
-            notImplementedToast.show();
+//            TODO
         }
         if (itemId == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
