@@ -1,9 +1,10 @@
-package com.example.typicalweatherapp.ui;
+package com.example.typicalweatherapp.ui.main;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,17 +14,23 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.Weather;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
+import com.example.typicalweatherapp.ui.about.AboutActivity;
+import com.example.typicalweatherapp.ui.settings.SettingsActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+
 
 public class MainActivity
         extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
 
     @Override
@@ -40,23 +47,21 @@ public class MainActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         binding.content.buttonMenu.setOnClickListener(v -> binding.drawerLayout.open());
+        binding.content.buttonAddCity.setOnClickListener(v -> { /* TODO */ });
 
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+        viewModel.getLoading().observe(this, v -> Log.d(TAG, "Loading: " + v));
+        viewModel.getLoadError().observe(this, v -> Log.d(TAG, "Error: " + v));
+        viewModel.getWeather().observe(this, v -> Log.d(TAG, "Weather: " + v));
+
+        // Temp
         binding.content.toggleButton.setToggled(R.id.toggle_c, true);
-
-        binding.content.bottomSheet.buttonWeekForecast.setOnClickListener(
-                v -> {
-//                    TODO
-                }
-        );
-        binding.content.buttonAddCity.setOnClickListener(
-                v -> {
-//                    TODO
-                }
-        );
     }
 
     private void initBackground() {
-        int themeQualifier = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        int themeQualifier = getResources().getConfiguration().uiMode &
+                Configuration.UI_MODE_NIGHT_MASK;
 
         CoordinatorLayout content = binding.content.getRoot();
 
@@ -75,9 +80,8 @@ public class MainActivity
 
         bottomSheetLayout.setLayoutTransition(transition);
 
-        BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior = BottomSheetBehavior.from(
-                bottomSheetLayout
-        );
+        BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior =
+                BottomSheetBehavior.from(bottomSheetLayout);
 
         MaterialButton button = binding.content.bottomSheet.buttonWeekForecast;
         LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
@@ -93,12 +97,10 @@ public class MainActivity
                             button.setVisibility(View.GONE);
                             infoLayout.setVisibility(View.VISIBLE);
                         }
-
                         if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                             infoLayout.setVisibility(View.INVISIBLE);
                             button.setVisibility(View.VISIBLE);
                         }
-
                     }
 
                     @Override
@@ -106,6 +108,8 @@ public class MainActivity
                     }
                 }
         );
+
+        binding.content.bottomSheet.buttonWeekForecast.setOnClickListener(v -> { /* TODO */ });
     }
 
     @Override
@@ -131,7 +135,7 @@ public class MainActivity
         if (drawer.isOpen()) {
             drawer.close();
         } else {
-            // можно добавить закрытие bottom sheet
+            // TODO закрытие bottom sheet
             super.onBackPressed();
         }
     }

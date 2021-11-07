@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp.ui;
+package com.example.typicalweatherapp.ui.about;
 
 import android.os.Bundle;
 
