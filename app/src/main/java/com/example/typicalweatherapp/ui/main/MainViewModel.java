@@ -31,38 +31,33 @@ public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<Weather> mWeather = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
     @Inject
     public MainViewModel() {
         App.getAppComponent().inject(this);
-        fetchWeather();
     }
 
-    private void fetchWeather() {
-        loading.setValue(true);
+    public void fetchWeather() {
         disposable.add(weatherRepository
-                //TODO       HARDCODED   HARDCODED
-                .getWeather(33.44, -94.04, "minutely", Constants.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new DisposableSingleObserver<Weather>() {
-                            @Override
-                            public void onSuccess(Weather weather) {
-                                loadError.setValue(false);
-                                loading.setValue(false);
-                                mWeather.setValue(weather);
-                            }
+            //TODO       HARDCODED   HARDCODED
+            .getWeather(59.939098, 30.315868, "minutely", "metric",  Constants.API_KEY)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(
+                new DisposableSingleObserver<Weather>() {
+                    @Override
+                    public void onSuccess(Weather weather) {
+                        loadError.setValue(false);
+                        mWeather.setValue(weather);
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                loadError.setValue(true);
-                                loading.setValue(false);
-                                Log.e(TAG, "onError: ", e);
-                            }
-                        }
-                )
+                    @Override
+                    public void onError(Throwable e) {
+                        loadError.setValue(true);
+                        Log.e(TAG, "onError: ", e);
+                    }
+                }
+            )
         );
     }
 
@@ -81,9 +76,5 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Boolean> getLoadError() {
         return loadError;
-    }
-
-    public LiveData<Boolean> getLoading() {
-        return loading;
     }
 }

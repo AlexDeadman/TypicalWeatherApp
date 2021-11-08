@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/image_view_card_info"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="10dp"
             tools:src="@drawable/ic_thermometer"
             tools:ignore="ContentDescription" />

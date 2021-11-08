@@ -22,8 +22,9 @@ public class WeatherRepository {
             Double lat,
             Double lon,
             String exclude,
+            String units,
             String apiid
     ) {
-        return apiService.getWeather(lat, lon, exclude, apiid);
+        return apiService.getWeather(lat, lon, exclude, units, apiid);
     }
 }

@@ -41,7 +41,7 @@ public class Current {
 
     @SerializedName("uvi")
     @Expose
-    private Integer uvi;
+    private Double uvi;
 
     @SerializedName("clouds")
     @Expose
@@ -53,7 +53,7 @@ public class Current {
 
     @SerializedName("wind_speed")
     @Expose
-    private Integer windSpeed;
+    private Double windSpeed;
 
     @SerializedName("wind_deg")
     @Expose
@@ -72,10 +72,10 @@ public class Current {
             Integer pressure,
             Integer humidity,
             Double dewPoint,
-            Integer uvi,
+            Double uvi,
             Integer clouds,
             Integer visibility,
-            Integer windSpeed,
+            Double windSpeed,
             Integer windDeg,
             List<CurrentWeather> weather
     ) {
@@ -162,11 +162,11 @@ public class Current {
         this.dewPoint = dewPoint;
     }
 
-    public Integer getUvi() {
+    public Double getUvi() {
         return uvi;
     }
 
-    public void setUvi(Integer uvi) {
+    public void setUvi(Double uvi) {
         this.uvi = uvi;
     }
 
@@ -186,11 +186,11 @@ public class Current {
         this.visibility = visibility;
     }
 
-    public Integer getWindSpeed() {
+    public Double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(Integer windSpeed) {
+    public void setWindSpeed(Double windSpeed) {
         this.windSpeed = windSpeed;
     }
 

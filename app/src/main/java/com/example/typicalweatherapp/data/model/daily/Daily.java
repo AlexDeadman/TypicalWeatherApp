@@ -73,11 +73,11 @@ public class Daily {
 
     @SerializedName("pop")
     @Expose
-    private Integer pop;
+    private Double pop;
 
     @SerializedName("uvi")
     @Expose
-    private Integer uvi;
+    private Double uvi;
 
     @SerializedName("rain")
     @Expose
@@ -100,8 +100,8 @@ public class Daily {
             Double windGust,
             List<DailyWeather> weather,
             Integer clouds,
-            Integer pop,
-            Integer uvi,
+            Double pop,
+            Double uvi,
             Double rain
     ) {
         this.dt = dt;
@@ -256,19 +256,19 @@ public class Daily {
         this.clouds = clouds;
     }
 
-    public Integer getPop() {
+    public Double getPop() {
         return pop;
     }
 
-    public void setPop(Integer pop) {
+    public void setPop(Double pop) {
         this.pop = pop;
     }
 
-    public Integer getUvi() {
+    public Double getUvi() {
         return uvi;
     }
 
-    public void setUvi(Integer uvi) {
+    public void setUvi(Double uvi) {
         this.uvi = uvi;
     }
 

@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,8 +16,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.Weather;
+import com.example.typicalweatherapp.data.model.daily.Daily;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
+import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
+import com.example.typicalweatherapp.databinding.CardWeatherBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
 import com.example.typicalweatherapp.ui.settings.SettingsActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -27,11 +28,15 @@ import com.google.android.material.navigation.NavigationView;
 
 
 public class MainActivity
-        extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    extends AppCompatActivity
+    implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
+
+    MainViewModel viewModel;
+
+    private boolean loadError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,12 @@ public class MainActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
         initBackground();
         initBottomSheet();
+
+        updateWeather();
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -49,19 +58,13 @@ public class MainActivity
         binding.content.buttonMenu.setOnClickListener(v -> binding.drawerLayout.open());
         binding.content.buttonAddCity.setOnClickListener(v -> { /* TODO */ });
 
-        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
-        viewModel.getLoading().observe(this, v -> Log.d(TAG, "Loading: " + v));
-        viewModel.getLoadError().observe(this, v -> Log.d(TAG, "Error: " + v));
-        viewModel.getWeather().observe(this, v -> Log.d(TAG, "Weather: " + v));
-
         // Temp
         binding.content.toggleButton.setToggled(R.id.toggle_c, true);
     }
 
     private void initBackground() {
         int themeQualifier = getResources().getConfiguration().uiMode &
-                Configuration.UI_MODE_NIGHT_MASK;
+            Configuration.UI_MODE_NIGHT_MASK;
 
         CoordinatorLayout content = binding.content.getRoot();
 
@@ -78,38 +81,116 @@ public class MainActivity
 
         LinearLayoutCompat bottomSheetLayout = binding.content.bottomSheet.getRoot();
 
+        bottomSheetLayout.setVisibility(View.INVISIBLE);
+
         bottomSheetLayout.setLayoutTransition(transition);
 
         BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior =
-                BottomSheetBehavior.from(bottomSheetLayout);
+            BottomSheetBehavior.from(bottomSheetLayout);
 
         MaterialButton button = binding.content.bottomSheet.buttonWeekForecast;
         LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
 
         bottomSheetBehavior.addBottomSheetCallback(
-                new BottomSheetBehavior.BottomSheetCallback() {
-                    @Override
-                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                            if (button.getVisibility() != View.GONE) {
-                                button.setVisibility(View.INVISIBLE);
-                            }
-                            button.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.VISIBLE);
+            new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                        if (button.getVisibility() != View.GONE) {
+                            button.setVisibility(View.INVISIBLE);
                         }
-                        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                            infoLayout.setVisibility(View.INVISIBLE);
-                            button.setVisibility(View.VISIBLE);
-                        }
+                        button.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
                     }
-
-                    @Override
-                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        infoLayout.setVisibility(View.INVISIBLE);
+                        button.setVisibility(View.VISIBLE);
                     }
                 }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                }
+            }
         );
 
         binding.content.bottomSheet.buttonWeekForecast.setOnClickListener(v -> { /* TODO */ });
+    }
+
+    void updateWeather() {
+        viewModel.fetchWeather();
+
+        viewModel.getLoadError().observe(this, v -> loadError = v.booleanValue());
+
+        if (!loadError) {
+            viewModel.getWeather().observe(
+                this,
+                v -> {
+                    binding.content.textViewTemperature.setText(
+                        Math.round(v.getCurrent().getTemp()) + "˚C"
+                    );
+
+                    // TODO date
+
+                    BottomSheetMainBinding bottomSheet = binding.content.bottomSheet;
+
+                    //  generating and filling weather cards
+
+                    for (int i = 0; i < 4; i++) {
+                        LinearLayoutCompat weatherCards = bottomSheet.layoutWeatherCards;
+                        View cardView = getLayoutInflater().inflate(
+                            R.layout.card_weather,
+                            weatherCards,
+                            false
+                        );
+
+                        CardWeatherBinding cardBinding = CardWeatherBinding.bind(cardView);
+                        cardBinding.textViewTime.setText(i * 6 + ":00");
+                        cardBinding.textViewDegrees.setText(
+                            Math.round(v.getHourly().get(i * 6).getTemp()) + "˚C"
+                        );
+
+                        weatherCards.addView(cardView);
+                    }
+
+                    //  filling info cards
+
+                    Daily today = v.getDaily().get(0);
+
+                    // 1
+                    bottomSheet.cardInfo1.imageViewCardInfo.setImageDrawable(
+                        AppCompatResources.getDrawable(this, R.drawable.ic_thermometer)
+                    );
+                    bottomSheet.cardInfo1.textViewCardInfo.setText(
+                        Math.round(today.getTemp().getDay()) + "˚C"
+                    );
+
+                    // 2
+                    bottomSheet.cardInfo2.imageViewCardInfo.setImageDrawable(
+                        AppCompatResources.getDrawable(this, R.drawable.ic_humidity)
+                    );
+                    bottomSheet.cardInfo2.textViewCardInfo.setText(
+                        today.getHumidity() + "%"
+                    );
+
+                    // 3
+                    bottomSheet.cardInfo3.imageViewCardInfo.setImageDrawable(
+                        AppCompatResources.getDrawable(this, R.drawable.ic_breeze)
+                    );
+                    bottomSheet.cardInfo3.textViewCardInfo.setText(
+                        today.getWindSpeed() + " m/s"
+                    );
+
+                    // 4
+                    bottomSheet.cardInfo4.imageViewCardInfo.setImageDrawable(
+                        AppCompatResources.getDrawable(this, R.drawable.ic_barometer)
+                    );
+                    bottomSheet.cardInfo4.textViewCardInfo.setText(
+                        today.getPressure() + " hPa"
+                    );
+                }
+            );
+        }
     }
 
     @Override
@@ -135,7 +216,7 @@ public class MainActivity
         if (drawer.isOpen()) {
             drawer.close();
         } else {
-            // TODO закрытие bottom sheet
+            // TODO bottom sheet closing
             super.onBackPressed();
         }
     }

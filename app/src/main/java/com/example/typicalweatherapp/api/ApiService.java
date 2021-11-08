@@ -12,6 +12,7 @@ public interface ApiService {
             @Query("lat") Double lat,
             @Query("lon") Double lon,
             @Query("exclude") String exclude,
+            @Query("units") String units,
             @Query("appid") String apiid
     );
 }

@@ -1,13 +1,15 @@
 package com.example.typicalweatherapp.data.model;
 
-import java.util.List;
-
 import com.example.typicalweatherapp.data.model.alert.Alert;
 import com.example.typicalweatherapp.data.model.current.Current;
 import com.example.typicalweatherapp.data.model.daily.Daily;
 import com.example.typicalweatherapp.data.model.hourly.Hourly;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+// TODO clean up model
 
 public class Weather {
 
@@ -129,5 +131,4 @@ public class Weather {
     public void setAlerts(List<Alert> alerts) {
         this.alerts = alerts;
     }
-
 }

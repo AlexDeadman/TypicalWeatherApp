@@ -33,7 +33,7 @@ public class Hourly {
 
     @SerializedName("uvi")
     @Expose
-    private Integer uvi;
+    private Double uvi;
 
     @SerializedName("clouds")
     @Expose
@@ -61,7 +61,7 @@ public class Hourly {
 
     @SerializedName("pop")
     @Expose
-    private Integer pop;
+    private Double pop;
 
     public Hourly(
             Integer dt,
@@ -70,14 +70,14 @@ public class Hourly {
             Integer pressure,
             Integer humidity,
             Double dewPoint,
-            Integer uvi,
+            Double uvi,
             Integer clouds,
             Integer visibility,
             Double windSpeed,
             Integer windDeg,
             Double windGust,
             List<HourlyWeather> weather,
-            Integer pop
+            Double pop
     ) {
         this.dt = dt;
         this.temp = temp;
@@ -146,11 +146,11 @@ public class Hourly {
         this.dewPoint = dewPoint;
     }
 
-    public Integer getUvi() {
+    public Double getUvi() {
         return uvi;
     }
 
-    public void setUvi(Integer uvi) {
+    public void setUvi(Double uvi) {
         this.uvi = uvi;
     }
 
@@ -202,11 +202,11 @@ public class Hourly {
         this.weather = weather;
     }
 
-    public Integer getPop() {
+    public Double getPop() {
         return pop;
     }
 
-    public void setPop(Integer pop) {
+    public void setPop(Double pop) {
         this.pop = pop;
     }
 

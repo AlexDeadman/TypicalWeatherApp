@@ -19,27 +19,12 @@
         android:background="?android:colorPrimary" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_weather_cards"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <include
-            android:id="@+id/card_weather_1"
-            layout="@layout/card_weather" />
-
-        <include
-            android:id="@+id/card_weather_2"
-            layout="@layout/card_weather" />
-
-        <include
-            android:id="@+id/card_weather_3"
-            layout="@layout/card_weather" />
-
-        <include
-            android:id="@+id/card_weather_4"
-            layout="@layout/card_weather" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
