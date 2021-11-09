@@ -19,7 +19,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-@Singleton
 public class MainViewModel extends ViewModel {
 
     @Inject
@@ -39,7 +38,7 @@ public class MainViewModel extends ViewModel {
 
     public void fetchWeather() {
         disposable.add(weatherRepository
-            //TODO       HARDCODED   HARDCODED
+            //TODO         HARDCODED      HARDCODED
             .getWeather(59.939098, 30.315868, "minutely", "metric",  Constants.API_KEY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

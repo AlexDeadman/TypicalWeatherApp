@@ -5,7 +5,8 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorOnPrimary">@android:color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#4B5F88</item>
+<!--        <item name="colorSecondary">#4B5F88</item>-->
+        <item name="colorSecondary">@android:color/white</item>
         <item name="colorSecondaryVariant">#AAAAAA</item>
         <item name="colorOnSecondary">@android:color/black</item>
         <!-- Customize your theme here. -->

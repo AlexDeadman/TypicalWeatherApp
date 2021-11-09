@@ -1,6 +1,7 @@
 package com.example.typicalweatherapp.ui.main;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,14 +18,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.daily.Daily;
+import com.example.typicalweatherapp.data.model.hourly.Hourly;
+import com.example.typicalweatherapp.data.model.hourly.HourlyWeather;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.databinding.CardWeatherBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
 import com.example.typicalweatherapp.ui.settings.SettingsActivity;
+import com.example.typicalweatherapp.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity
@@ -76,12 +84,10 @@ public class MainActivity
     }
 
     private void initBottomSheet() {
-        LayoutTransition transition = new LayoutTransition();
-        transition.setAnimateParentHierarchy(false);
-
         LinearLayoutCompat bottomSheetLayout = binding.content.bottomSheet.getRoot();
 
-        bottomSheetLayout.setVisibility(View.INVISIBLE);
+        LayoutTransition transition = new LayoutTransition();
+        transition.setAnimateParentHierarchy(false);
 
         bottomSheetLayout.setLayoutTransition(transition);
 
@@ -120,24 +126,35 @@ public class MainActivity
     void updateWeather() {
         viewModel.fetchWeather();
 
-        viewModel.getLoadError().observe(this, v -> loadError = v.booleanValue());
+        viewModel.getLoadError().observe(this, v -> loadError = v);
 
         if (!loadError) {
             viewModel.getWeather().observe(
                 this,
                 v -> {
+                    Daily today = v.getDaily().get(0);
+                    BottomSheetMainBinding bottomSheet = binding.content.bottomSheet;
+
+                    bottomSheet.progressBar.setVisibility(View.GONE);
+
+                    ////  updating main info
+
                     binding.content.textViewTemperature.setText(
                         Math.round(v.getCurrent().getTemp()) + "˚C"
                     );
 
-                    // TODO date
+                    binding.content.textViewDate.setText(
+                        new SimpleDateFormat("d MMMM", new Locale("en")).format(
+                            new Date(today.getDt() * 1000L)
+                        )
+                    );
 
-                    BottomSheetMainBinding bottomSheet = binding.content.bottomSheet;
+                    ////  generating and updating weather cards
 
-                    //  generating and filling weather cards
+                    LinearLayoutCompat weatherCards = bottomSheet.layoutWeatherCards;
 
+                    // TODO cards are swapped when the theme is changed
                     for (int i = 0; i < 4; i++) {
-                        LinearLayoutCompat weatherCards = bottomSheet.layoutWeatherCards;
                         View cardView = getLayoutInflater().inflate(
                             R.layout.card_weather,
                             weatherCards,
@@ -145,17 +162,32 @@ public class MainActivity
                         );
 
                         CardWeatherBinding cardBinding = CardWeatherBinding.bind(cardView);
-                        cardBinding.textViewTime.setText(i * 6 + ":00");
+
+                        Hourly hourly = v.getHourly().get(i * 6);
+
+                        cardBinding.textViewTime.setText(
+                            new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(
+                                hourly.getDt() * 1000L
+                            )
+                        );
+
+                        HourlyWeather hourlyWeather = hourly.getWeather().get(0);
+                        cardBinding.imageViewWeather.setImageDrawable(
+                            UiUtils.getWeatherResource(
+                                this,
+                                hourlyWeather.getMain(),
+                                hourlyWeather.getDescription()
+                            )
+                        );
+
                         cardBinding.textViewDegrees.setText(
-                            Math.round(v.getHourly().get(i * 6).getTemp()) + "˚C"
+                            Math.round(hourly.getTemp()) + "˚C"
                         );
 
                         weatherCards.addView(cardView);
                     }
 
-                    //  filling info cards
-
-                    Daily today = v.getDaily().get(0);
+                    ////  updating info cards
 
                     // 1
                     bottomSheet.cardInfo1.imageViewCardInfo.setImageDrawable(

@@ -80,12 +80,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:maxLength="5"
+            android:maxLength="6"
             android:maxLines="1"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textSize="80sp"
-            tools:text="12˚C" />
+            android:textSize="72sp"
+            tools:text="-999˚C" />
 
         <TextView
             android:id="@+id/text_view_date"

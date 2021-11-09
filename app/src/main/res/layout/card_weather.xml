@@ -28,21 +28,21 @@
 
         <ImageView
             android:id="@+id/image_view_weather"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginVertical="15dp"
-            tools:src="@drawable/partly_cloudy" />
+            android:layout_marginVertical="5dp"
+            tools:src="@drawable/ic_baseline_help_outline_24" />
 
         <TextView
             android:id="@+id/text_view_degrees"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="5"
+            android:maxLength="6"
             android:maxLines="1"
             android:textAlignment="center"
             android:textSize="17sp"
-            tools:text="12˚C" />
+            tools:text="-999˚C" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </soup.neumorphism.NeumorphCardView>

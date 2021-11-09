@@ -5,7 +5,8 @@
         <item name="colorPrimary">#038CFE</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#4B5F88</item>
+<!--        <item name="colorSecondary">#4B5F88</item>-->
+        <item name="colorSecondary">#038CFE</item>
         <item name="colorSecondaryVariant">#828282</item>
         <item name="colorOnSecondary">@android:color/black</item>
         <!-- Status bar color. -->
