@@ -3,12 +3,10 @@
 
     <!-- Language preferences -->
     <string-array name="language_entries">
-        <item>@string/system</item>
         <item>English</item>
         <item>Russian</item>
     </string-array>
     <string-array name="language_values">
-        <item>sys_lang</item>
         <item>en</item>
         <item>ru</item>
     </string-array>

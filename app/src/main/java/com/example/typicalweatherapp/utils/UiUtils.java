@@ -20,7 +20,7 @@ public final class UiUtils {
         }
     }
 
-    static public Drawable getWeatherResource(
+    static public Drawable getWeatherDrawable(
         Context context,
         String weatherClass,
         String weatherDescription

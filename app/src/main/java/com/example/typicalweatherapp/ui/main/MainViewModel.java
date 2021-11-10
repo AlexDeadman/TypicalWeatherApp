@@ -34,6 +34,7 @@ public class MainViewModel extends ViewModel {
     @Inject
     public MainViewModel() {
         App.getAppComponent().inject(this);
+        fetchWeather();
     }
 
     public void fetchWeather() {

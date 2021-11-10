@@ -20,6 +20,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ContentBackground">
+        <item name="android:background">@drawable/bg_light</item>
+    </style>
+
     <style name="CircleButtonShapeAppearance">
         <item name="neumorph_cornerFamily">oval</item>
     </style>
@@ -51,5 +55,9 @@
     <style name="CardStyle" parent="Theme.TypicalWeatherApp">
         <item name="neumorph_shadowColorDark">@color/card_shadow_dark_light</item>
         <item name="neumorph_shadowColorLight">@color/card_shadow_light_light</item>
+    </style>
+
+    <style name="WfCardBackground">
+        <item name="android:background">@drawable/item_week_forecast_bg_light</item>
     </style>
 </resources>
