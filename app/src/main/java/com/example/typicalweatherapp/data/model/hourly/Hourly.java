@@ -1,98 +1,39 @@
 package com.example.typicalweatherapp.data.model.hourly;
 
-import com.google.gson.annotations.Expose;
+import com.example.typicalweatherapp.data.model.WeatherInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Hourly {
 
-    @SerializedName("dt")
-    @Expose
     private Integer dt;
 
-    @SerializedName("temp")
-    @Expose
     private Double temp;
 
-    @SerializedName("feels_like")
-    @Expose
-    private Double feelsLike;
-
-    @SerializedName("pressure")
-    @Expose
     private Integer pressure;
 
-    @SerializedName("humidity")
-    @Expose
     private Integer humidity;
 
-    @SerializedName("dew_point")
-    @Expose
-    private Double dewPoint;
-
-    @SerializedName("uvi")
-    @Expose
-    private Double uvi;
-
-    @SerializedName("clouds")
-    @Expose
-    private Integer clouds;
-
-    @SerializedName("visibility")
-    @Expose
-    private Integer visibility;
-
     @SerializedName("wind_speed")
-    @Expose
     private Double windSpeed;
 
-    @SerializedName("wind_deg")
-    @Expose
-    private Integer windDeg;
-
-    @SerializedName("wind_gust")
-    @Expose
-    private Double windGust;
-
-    @SerializedName("weather")
-    @Expose
-    private List<HourlyWeather> weather = null;
-
-    @SerializedName("pop")
-    @Expose
-    private Double pop;
+    private List<WeatherInfo> weather = null;
 
     public Hourly(
-            Integer dt,
-            Double temp,
-            Double feelsLike,
-            Integer pressure,
-            Integer humidity,
-            Double dewPoint,
-            Double uvi,
-            Integer clouds,
-            Integer visibility,
-            Double windSpeed,
-            Integer windDeg,
-            Double windGust,
-            List<HourlyWeather> weather,
-            Double pop
+        Integer dt,
+        Double temp,
+        Integer pressure,
+        Integer humidity,
+        Double windSpeed,
+        List<WeatherInfo> weather
     ) {
         this.dt = dt;
         this.temp = temp;
-        this.feelsLike = feelsLike;
         this.pressure = pressure;
         this.humidity = humidity;
-        this.dewPoint = dewPoint;
-        this.uvi = uvi;
-        this.clouds = clouds;
-        this.visibility = visibility;
         this.windSpeed = windSpeed;
-        this.windDeg = windDeg;
-        this.windGust = windGust;
         this.weather = weather;
-        this.pop = pop;
     }
 
     public Hourly() {
@@ -114,14 +55,6 @@ public class Hourly {
         this.temp = temp;
     }
 
-    public Double getFeelsLike() {
-        return feelsLike;
-    }
-
-    public void setFeelsLike(Double feelsLike) {
-        this.feelsLike = feelsLike;
-    }
-
     public Integer getPressure() {
         return pressure;
     }
@@ -138,38 +71,6 @@ public class Hourly {
         this.humidity = humidity;
     }
 
-    public Double getDewPoint() {
-        return dewPoint;
-    }
-
-    public void setDewPoint(Double dewPoint) {
-        this.dewPoint = dewPoint;
-    }
-
-    public Double getUvi() {
-        return uvi;
-    }
-
-    public void setUvi(Double uvi) {
-        this.uvi = uvi;
-    }
-
-    public Integer getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Integer clouds) {
-        this.clouds = clouds;
-    }
-
-    public Integer getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(Integer visibility) {
-        this.visibility = visibility;
-    }
-
     public Double getWindSpeed() {
         return windSpeed;
     }
@@ -178,36 +79,11 @@ public class Hourly {
         this.windSpeed = windSpeed;
     }
 
-    public Integer getWindDeg() {
-        return windDeg;
-    }
-
-    public void setWindDeg(Integer windDeg) {
-        this.windDeg = windDeg;
-    }
-
-    public Double getWindGust() {
-        return windGust;
-    }
-
-    public void setWindGust(Double windGust) {
-        this.windGust = windGust;
-    }
-
-    public List<HourlyWeather> getWeather() {
+    public List<WeatherInfo> getWeather() {
         return weather;
     }
 
-    public void setWeather(List<HourlyWeather> weather) {
+    public void setWeather(List<WeatherInfo> weather) {
         this.weather = weather;
     }
-
-    public Double getPop() {
-        return pop;
-    }
-
-    public void setPop(Double pop) {
-        this.pop = pop;
-    }
-
 }

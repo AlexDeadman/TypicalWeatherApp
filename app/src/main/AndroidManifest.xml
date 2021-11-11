@@ -12,25 +12,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TypicalWeatherApp">
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
-            android:screenOrientation="locked"
             android:theme="@style/Theme.TypicalWeatherApp.NoActionBar">
+            <!--            android:screenOrientation="locked"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="locked"
             android:theme="@style/PreferencesTheme" />
+        <!--            android:screenOrientation="locked"-->
+
         <activity
             android:name=".ui.about.AboutActivity"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="locked" />
+            android:parentActivityName=".ui.main.MainActivity"/>
+        <!--            android:screenOrientation="locked" />-->
+
+        <activity
+            android:name=".ui.weekforecast.WeekForecastActivity"
+            android:parentActivityName=".ui.main.MainActivity"/>
+
     </application>
 
 </manifest>

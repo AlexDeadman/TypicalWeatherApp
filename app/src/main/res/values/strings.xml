@@ -30,7 +30,7 @@
 
     <!-- Other -->
     <string name="week_forecast">Week forecast</string>
+    <string name="previous">Previous</string>
     <string name="c">˚C</string>
     <string name="f">˚F</string>
-    <string name="back">Back</string>
 </resources>

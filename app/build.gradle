@@ -75,6 +75,7 @@ dependencies {
 
     // Dagger
     implementation 'com.google.dagger:dagger:' + daggerVersion
+    implementation 'androidx.core:core-animation:1.0.0-alpha02'
     annotationProcessor 'com.google.dagger:dagger-compiler:' + daggerVersion
 
     // Tests

@@ -9,6 +9,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.WeatherInfo;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public final class UiUtils {
     static public void initActionBar(ActionBar actionBar, String title) {
@@ -22,16 +27,15 @@ public final class UiUtils {
 
     static public Drawable getWeatherDrawable(
         Context context,
-        String weatherClass,
-        String weatherDescription
+        WeatherInfo weatherInfo
     ) {
         int drawableId = R.drawable.ic_baseline_help_outline_24;
 
-        if (weatherDescription.equals("few clouds")) {
+        if (weatherInfo.getDescription().equals("few clouds")) {
             drawableId = R.drawable.w_partly_cloudy;
         }
 
-        switch (weatherClass) {
+        switch (weatherInfo.getMain()) {
             case ("Clear"):
                 drawableId = R.drawable.w_sunny;
                 break;
@@ -52,5 +56,12 @@ public final class UiUtils {
         }
 
         return AppCompatResources.getDrawable(context, drawableId);
+    }
+
+    static public String formatDate(int dt) {
+        // TODO                                                     HARDCODED
+        return new SimpleDateFormat("d MMMM", new Locale("en")).format(
+            new Date(dt * 1000L)
+        );
     }
 }

@@ -65,11 +65,11 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/card_info_1"
+                android:id="@+id/card_temperature"
                 layout="@layout/card_info" />
 
             <include
-                android:id="@+id/card_info_2"
+                android:id="@+id/card_humidity"
                 layout="@layout/card_info" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -81,11 +81,11 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/card_info_3"
+                android:id="@+id/card_wind_speed"
                 layout="@layout/card_info" />
 
             <include
-                android:id="@+id/card_info_4"
+                android:id="@+id/card_pressure"
                 layout="@layout/card_info" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

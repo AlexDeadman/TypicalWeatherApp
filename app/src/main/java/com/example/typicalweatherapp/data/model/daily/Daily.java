@@ -1,132 +1,119 @@
 package com.example.typicalweatherapp.data.model.daily;
 
-import com.google.gson.annotations.Expose;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.typicalweatherapp.data.model.WeatherInfo;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class Daily {
+public class Daily implements Parcelable {
 
-    @SerializedName("dt")
-    @Expose
     private Integer dt;
 
-    @SerializedName("sunrise")
-    @Expose
-    private Integer sunrise;
-
-    @SerializedName("sunset")
-    @Expose
-    private Integer sunset;
-
-    @SerializedName("moonrise")
-    @Expose
-    private Integer moonrise;
-
-    @SerializedName("moonset")
-    @Expose
-    private Integer moonset;
-
-    @SerializedName("moon_phase")
-    @Expose
-    private Double moonPhase;
-
-    @SerializedName("temp")
-    @Expose
     private Temp temp;
 
-    @SerializedName("feels_like")
-    @Expose
-    private FeelsLike feelsLike;
-
-    @SerializedName("pressure")
-    @Expose
     private Integer pressure;
 
-    @SerializedName("humidity")
-    @Expose
     private Integer humidity;
 
-    @SerializedName("dew_point")
-    @Expose
-    private Double dewPoint;
-
     @SerializedName("wind_speed")
-    @Expose
     private Double windSpeed;
 
-    @SerializedName("wind_deg")
-    @Expose
-    private Integer windDeg;
-
-    @SerializedName("wind_gust")
-    @Expose
-    private Double windGust;
-
-    @SerializedName("weather")
-    @Expose
-    private List<DailyWeather> weather = null;
-
-    @SerializedName("clouds")
-    @Expose
-    private Integer clouds;
-
-    @SerializedName("pop")
-    @Expose
-    private Double pop;
-
-    @SerializedName("uvi")
-    @Expose
-    private Double uvi;
-
-    @SerializedName("rain")
-    @Expose
-    private Double rain;
+    private ArrayList<WeatherInfo> weather = null;
 
     public Daily(
-            Integer dt,
-            Integer sunrise,
-            Integer sunset,
-            Integer moonrise,
-            Integer moonset,
-            Double moonPhase,
-            Temp temp,
-            FeelsLike feelsLike,
-            Integer pressure,
-            Integer humidity,
-            Double dewPoint,
-            Double windSpeed,
-            Integer windDeg,
-            Double windGust,
-            List<DailyWeather> weather,
-            Integer clouds,
-            Double pop,
-            Double uvi,
-            Double rain
+        Integer dt,
+        Temp temp,
+        Integer pressure,
+        Integer humidity,
+        Double windSpeed,
+        ArrayList<WeatherInfo> weather,
+        Double pop
     ) {
         this.dt = dt;
-        this.sunrise = sunrise;
-        this.sunset = sunset;
-        this.moonrise = moonrise;
-        this.moonset = moonset;
-        this.moonPhase = moonPhase;
         this.temp = temp;
-        this.feelsLike = feelsLike;
         this.pressure = pressure;
         this.humidity = humidity;
-        this.dewPoint = dewPoint;
         this.windSpeed = windSpeed;
-        this.windDeg = windDeg;
-        this.windGust = windGust;
         this.weather = weather;
-        this.clouds = clouds;
-        this.pop = pop;
-        this.uvi = uvi;
-        this.rain = rain;
     }
 
     public Daily() {
     }
+
+    protected Daily(Parcel in) {
+        if (in.readByte() == 0) {
+            dt = null;
+        } else {
+            dt = in.readInt();
+        }
+        temp = in.readParcelable(Temp.class.getClassLoader());
+        if (in.readByte() == 0) {
+            pressure = null;
+        } else {
+            pressure = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            humidity = null;
+        } else {
+            humidity = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            windSpeed = null;
+        } else {
+            windSpeed = in.readDouble();
+        }
+        weather = in.createTypedArrayList(WeatherInfo.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (dt == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(dt);
+        }
+        dest.writeParcelable(temp, flags);
+        if (pressure == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pressure);
+        }
+        if (humidity == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(humidity);
+        }
+        if (windSpeed == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(windSpeed);
+        }
+        dest.writeTypedList(weather);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Daily> CREATOR = new Creator<Daily>() {
+        @Override
+        public Daily createFromParcel(Parcel in) {
+            return new Daily(in);
+        }
+
+        @Override
+        public Daily[] newArray(int size) {
+            return new Daily[size];
+        }
+    };
 
     public Integer getDt() {
         return dt;
@@ -136,60 +123,12 @@ public class Daily {
         this.dt = dt;
     }
 
-    public Integer getSunrise() {
-        return sunrise;
-    }
-
-    public void setSunrise(Integer sunrise) {
-        this.sunrise = sunrise;
-    }
-
-    public Integer getSunset() {
-        return sunset;
-    }
-
-    public void setSunset(Integer sunset) {
-        this.sunset = sunset;
-    }
-
-    public Integer getMoonrise() {
-        return moonrise;
-    }
-
-    public void setMoonrise(Integer moonrise) {
-        this.moonrise = moonrise;
-    }
-
-    public Integer getMoonset() {
-        return moonset;
-    }
-
-    public void setMoonset(Integer moonset) {
-        this.moonset = moonset;
-    }
-
-    public Double getMoonPhase() {
-        return moonPhase;
-    }
-
-    public void setMoonPhase(Double moonPhase) {
-        this.moonPhase = moonPhase;
-    }
-
     public Temp getTemp() {
         return temp;
     }
 
     public void setTemp(Temp temp) {
         this.temp = temp;
-    }
-
-    public FeelsLike getFeelsLike() {
-        return feelsLike;
-    }
-
-    public void setFeelsLike(FeelsLike feelsLike) {
-        this.feelsLike = feelsLike;
     }
 
     public Integer getPressure() {
@@ -208,14 +147,6 @@ public class Daily {
         this.humidity = humidity;
     }
 
-    public Double getDewPoint() {
-        return dewPoint;
-    }
-
-    public void setDewPoint(Double dewPoint) {
-        this.dewPoint = dewPoint;
-    }
-
     public Double getWindSpeed() {
         return windSpeed;
     }
@@ -224,60 +155,11 @@ public class Daily {
         this.windSpeed = windSpeed;
     }
 
-    public Integer getWindDeg() {
-        return windDeg;
-    }
-
-    public void setWindDeg(Integer windDeg) {
-        this.windDeg = windDeg;
-    }
-
-    public Double getWindGust() {
-        return windGust;
-    }
-
-    public void setWindGust(Double windGust) {
-        this.windGust = windGust;
-    }
-
-    public List<DailyWeather> getWeather() {
+    public ArrayList<WeatherInfo> getWeather() {
         return weather;
     }
 
-    public void setWeather(List<DailyWeather> weather) {
+    public void setWeather(ArrayList<WeatherInfo> weather) {
         this.weather = weather;
     }
-
-    public Integer getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Integer clouds) {
-        this.clouds = clouds;
-    }
-
-    public Double getPop() {
-        return pop;
-    }
-
-    public void setPop(Double pop) {
-        this.pop = pop;
-    }
-
-    public Double getUvi() {
-        return uvi;
-    }
-
-    public void setUvi(Double uvi) {
-        this.uvi = uvi;
-    }
-
-    public Double getRain() {
-        return rain;
-    }
-
-    public void setRain(Double rain) {
-        this.rain = rain;
-    }
-
 }

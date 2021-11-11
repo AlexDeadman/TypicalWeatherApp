@@ -1,54 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/WfCardBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="30dp"
-    tools:layout_margin="20dp">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="?attr/editTextColor"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        tools:text="23 September" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginVertical="20dp"
-        android:background="@android:color/transparent"
-        tools:src="@drawable/w_partly_cloudy" />
+    android:layout_margin="20dp"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="10dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        style="@style/WfCardBackground"
+        android:orientation="vertical"
+        android:padding="25dp">
 
-        <include
-            android:id="@+id/text_view_wf_info_1"
-            layout="@layout/wf_item_text" />
+        <TextView
+            android:id="@+id/text_view_daily_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/editTextColor"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:text="23 September" />
 
-        <include
-            android:id="@+id/text_view_wf_info_2"
-            layout="@layout/wf_item_text" />
+        <ImageView
+            android:id="@+id/image_view_daily_weather"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginVertical="20dp"
+            android:background="@android:color/transparent"
+            tools:src="@drawable/w_partly_cloudy" />
 
-        <include
-            android:id="@+id/text_view_wf_info_3"
-            layout="@layout/wf_item_text" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:layout_marginVertical="20dp">
 
-        <include
-            android:id="@+id/text_view_wf_info_4"
-            layout="@layout/wf_item_text" />
+            <TextView
+                android:id="@+id/text_view_wf_temperature"
+                style="@style/WfTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:drawableStartCompat="@drawable/ic_thermometer" />
 
+            <TextView
+                android:id="@+id/text_view_wf_wind_speed"
+                style="@style/WfTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:drawableStartCompat="@drawable/ic_breeze" />
+
+            <TextView
+                android:id="@+id/text_view_wf_info_humidity"
+                style="@style/WfTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:drawableStartCompat="@drawable/ic_humidity" />
+
+            <TextView
+                android:id="@+id/text_view_wf_pressure"
+                style="@style/WfTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:drawableStartCompat="@drawable/ic_barometer" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>
