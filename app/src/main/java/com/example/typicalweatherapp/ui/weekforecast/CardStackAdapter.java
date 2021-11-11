@@ -15,13 +15,14 @@ import com.example.typicalweatherapp.databinding.ItemWeekForecastBinding;
 import com.example.typicalweatherapp.utils.UiUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
-    private List<Daily> dailies;
+    private ArrayList<Daily> dailies;
 
-    public CardStackAdapter(List<Daily> dailies) {
+    public CardStackAdapter(ArrayList<Daily> dailies) {
         this.dailies = dailies;
     }
 
@@ -39,8 +40,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         Daily daily = dailies.get(position);
         ItemWeekForecastBinding binding = holder.binding;
 
-        // TODO use text placeholders or handle by utils
-
         binding.textViewDailyDate.setText(
             UiUtils.formatDate(daily.getDt())
         );
@@ -50,6 +49,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
                 daily.getWeather().get(0)
             )
         );
+
+        // TODO use text placeholders or handle by utils
 
         binding.textViewWfTemperature.setText(
             Math.round(daily.getTemp().getDay()) + "˚C"
@@ -71,11 +72,11 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         return dailies.size();
     }
 
-    public List<Daily> getDailies() {
+    public ArrayList<Daily> getDailies() {
         return dailies;
     }
 
-    public void setDailies(List<Daily> dailies) {
+    public void setDailies(ArrayList<Daily> dailies) {
         this.dailies = dailies;
     }
 

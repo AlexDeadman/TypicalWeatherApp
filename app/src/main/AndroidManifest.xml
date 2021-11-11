@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.typicalweatherapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -16,8 +16,8 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
+            android:screenOrientation="locked"
             android:theme="@style/Theme.TypicalWeatherApp.NoActionBar">
-            <!--            android:screenOrientation="locked"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,17 +27,19 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="locked"
             android:theme="@style/PreferencesTheme" />
-        <!--            android:screenOrientation="locked"-->
 
         <activity
             android:name=".ui.about.AboutActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
-        <!--            android:screenOrientation="locked" />-->
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="locked" />
 
         <activity
             android:name=".ui.weekforecast.WeekForecastActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="locked" />
+
 
     </application>
 

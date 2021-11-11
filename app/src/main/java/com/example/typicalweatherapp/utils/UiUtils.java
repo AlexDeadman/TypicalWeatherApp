@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -27,7 +28,7 @@ public final class UiUtils {
 
     static public Drawable getWeatherDrawable(
         Context context,
-        WeatherInfo weatherInfo
+        @NonNull WeatherInfo weatherInfo
     ) {
         int drawableId = R.drawable.ic_baseline_help_outline_24;
 

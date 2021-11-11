@@ -3,11 +3,13 @@ package com.example.typicalweatherapp.ui.weekforecast;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.animation.DecelerateInterpolator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.R;
@@ -24,10 +26,17 @@ import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WeekForecastActivity extends AppCompatActivity implements CardStackListener {
 
     private ActivityWeekForecastBinding binding;
+
+    ArrayList<Daily> dailies;
+
+    CardStackAdapter adapter;
+    CardStackLayoutManager manager;
+    CardStackView cardStackView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,25 +47,22 @@ public class WeekForecastActivity extends AppCompatActivity implements CardStack
 
         UiUtils.initActionBar(getSupportActionBar(), getString(R.string.week_forecast));
 
-        ArrayList<Daily> dailies = getIntent().getParcelableArrayListExtra("dailies");
+        dailies = fetchDailies();
 
         if (dailies != null) {
-            CardStackAdapter adapter = new CardStackAdapter(dailies);
-            CardStackView cardStackView = binding.cardStackView;
+            adapter = new CardStackAdapter(dailies);
+            cardStackView = binding.cardStackView;
 
-            CardStackLayoutManager manager = new CardStackLayoutManager(this, this);
+            manager = new CardStackLayoutManager(this, this);
             manager.setDirections(Direction.HORIZONTAL);
+            manager.setSwipeThreshold(0.1f);
             manager.setCanScrollHorizontal(true);
             manager.setCanScrollVertical(false);
             manager.setMaxDegree(30.0f);
 
             cardStackView.setLayoutManager(manager);
             cardStackView.setAdapter(adapter);
-
-            RecyclerView.ItemAnimator itemAnimator = cardStackView.getItemAnimator();
-            if (itemAnimator instanceof DefaultItemAnimator) {
-                ((DefaultItemAnimator) itemAnimator).setSupportsChangeAnimations(false);
-            }
+            cardStackView.setItemAnimator(null);
 
             binding.buttonPrevious.setOnClickListener(v -> {
                 RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
@@ -66,8 +72,6 @@ public class WeekForecastActivity extends AppCompatActivity implements CardStack
                 manager.setRewindAnimationSetting(setting);
                 cardStackView.rewind();
             });
-
-            // TODO pagination (loop cards)
         }
     }
 
@@ -77,6 +81,9 @@ public class WeekForecastActivity extends AppCompatActivity implements CardStack
 
     @Override
     public void onCardSwiped(Direction direction) {
+        if (manager.getTopPosition() == adapter.getItemCount() - 1) {
+            paginate();
+        }
     }
 
     @Override
@@ -93,5 +100,22 @@ public class WeekForecastActivity extends AppCompatActivity implements CardStack
 
     @Override
     public void onCardDisappeared(View view, int position) {
+    }
+
+    private ArrayList<Daily> fetchDailies() {
+        return getIntent().getParcelableArrayListExtra("dailies");
+    }
+
+    private void paginate() {
+        ArrayList<Daily> oldDailies = adapter.getDailies();
+
+        ArrayList<Daily> newDailies = new ArrayList<>(oldDailies);
+        newDailies.addAll(fetchDailies());
+
+        DailiesDiffCallback callback = new DailiesDiffCallback(oldDailies, newDailies);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+
+        adapter.setDailies(newDailies);
+        result.dispatchUpdatesTo(adapter);
     }
 }
