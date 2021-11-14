@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class DailiesDiffCallback extends DiffUtil.Callback {
 
-    private ArrayList<Daily> oldDailies;
-    private ArrayList<Daily> newDailies;
+    private final ArrayList<Daily> oldDailies;
+    private final ArrayList<Daily> newDailies;
 
     public DailiesDiffCallback(
         ArrayList<Daily> oldDailies,

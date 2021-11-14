@@ -1,6 +1,5 @@
 package com.example.typicalweatherapp.di;
 
-import com.example.typicalweatherapp.ui.main.MainActivity;
 import com.example.typicalweatherapp.ui.main.MainViewModel;
 
 import javax.inject.Singleton;

@@ -6,27 +6,26 @@
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_thermometer"
             app:key="units_temp"
-            app:summaryOff="˚C"
-            app:summaryOn="˚F"
+            app:summaryOff="@string/c"
+            app:summaryOn="@string/f"
             app:title="@string/temperature" />
     </PreferenceCategory>
 
     <PreferenceCategory>
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_breeze"
-            app:key="units_wind"
-            app:summaryOff="m/s"
-            app:summaryOn="km/h"
-            app:title="@string/wind_force" />
+            app:key="units_speed"
+            app:summaryOff="@string/m_s"
+            app:summaryOn="@string/km_h"
+            app:title="@string/wind_speed" />
     </PreferenceCategory>
 
     <PreferenceCategory>
         <SwitchPreferenceCompat
-            android:defaultValue="true"
             android:icon="@drawable/ic_barometer"
             app:key="units_pressure"
-            app:summaryOff="mmHg"
-            app:summaryOn="hPa"
+            app:summaryOn="@string/mmhg"
+            app:summaryOff="@string/hpa"
             app:title="@string/pressure" />
     </PreferenceCategory>
 

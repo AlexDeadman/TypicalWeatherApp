@@ -1,48 +1,41 @@
 package com.example.typicalweatherapp.ui.main;
 
 import android.animation.LayoutTransition;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.WeatherInfo;
-import com.example.typicalweatherapp.data.model.daily.Daily;
-import com.example.typicalweatherapp.data.model.hourly.Hourly;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
-import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
-import com.example.typicalweatherapp.databinding.CardWeatherBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
 import com.example.typicalweatherapp.ui.settings.SettingsActivity;
 import com.example.typicalweatherapp.ui.weekforecast.WeekForecastActivity;
-import com.example.typicalweatherapp.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
+public class MainActivity extends AppCompatActivity
+    implements
+    NavigationView.OnNavigationItemSelectedListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
-public class MainActivity
-    extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
+    private MainViewModel viewModel;
+    private MainUiUpdater uiUpdater;
 
-    MainViewModel viewModel;
-
+    private SharedPreferences preferences;
     private boolean loadError;
 
     @Override
@@ -51,6 +44,10 @@ public class MainActivity
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Context appContext = getApplicationContext();
+        preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
+        preferences.registerOnSharedPreferenceChangeListener(this);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         updateWeather();
@@ -65,6 +62,12 @@ public class MainActivity
 
         // Temp
         binding.content.toggleButton.setToggled(R.id.toggle_c, true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.drawerLayout.close();
     }
 
     @Override
@@ -95,92 +98,50 @@ public class MainActivity
         }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (uiUpdater != null) {
+            switch (key) {
+                case ("units_temp"):
+                    uiUpdater.updateMainInfo();
+                    uiUpdater.updateWeatherCards();
+                    uiUpdater.updateDayTempCard();
+                case ("units_speed"):
+                    uiUpdater.updateDayWindSpeed();
+                case ("units_pressure"):
+                    uiUpdater.updateDayPressure();
+            }
+        }
+    }
+
     void updateWeather() {
-        viewModel.getLoadError().observe(this, v -> loadError = v);
+        viewModel.getLoadError().observe(this, value -> {
+            loadError = value;
+            if (value) {
+                binding.content.bottomSheet.progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(
+                    this,
+                    R.string.network_error,
+                    Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
 
         if (!loadError) {
             viewModel.getWeather().observe(
                 this,
-                v -> {
-                    Daily today = v.getDaily().get(0);
-                    BottomSheetMainBinding bottomSheet = binding.content.bottomSheet;
+                weather -> {
+                    binding.content.bottomSheet.buttonWeekForecast.setVisibility(View.VISIBLE);
 
-                    bottomSheet.progressBar.setVisibility(View.GONE);
-
-                    ////  updating main info
-
-                    binding.content.textViewTemperature.setText(
-                        Math.round(v.getCurrent().getTemp()) + "˚C"
+                    uiUpdater = new MainUiUpdater(
+                        this,
+                        binding,
+                        preferences,
+                        getLayoutInflater(),
+                        weather
                     );
 
-                    binding.content.textViewCurrentDate.setText(
-                        UiUtils.formatDate(today.getDt())
-                    );
-
-                    ////  generating and updating weather cards
-
-                    LinearLayoutCompat weatherCards = bottomSheet.layoutWeatherCards;
-
-                    for (int i = 0; i < 4; i++) {
-                        View cardView = getLayoutInflater().inflate(
-                            R.layout.card_weather,
-                            weatherCards,
-                            false
-                        );
-
-                        CardWeatherBinding cardBinding = CardWeatherBinding.bind(cardView);
-
-                        Hourly hourly = v.getHourly().get(i * 6);
-
-                        cardBinding.textViewTime.setText(
-                            new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(
-                                new Date(hourly.getDt() * 1000L)
-                            )
-                        );
-
-                        WeatherInfo hourlyWeather = hourly.getWeather().get(0);
-                        cardBinding.imageViewWeather.setImageDrawable(
-                            UiUtils.getWeatherDrawable(this, hourlyWeather)
-                        );
-
-                        cardBinding.textViewDegrees.setText(
-                            Math.round(hourly.getTemp()) + "˚C"
-                        );
-
-                        weatherCards.addView(cardView);
-                    }
-
-                    ////  updating info cards
-
-                    // TODO use text placeholders or handle by utils
-
-                    // 1
-                    TextView cardTemperature = bottomSheet.cardTemperature.textViewCardInfo;
-                    cardTemperature.setText(Math.round(today.getTemp().getDay()) + "˚C");
-                    cardTemperature.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_thermometer, 0, 0, 0
-                    );
-
-                    // 2
-                    TextView cardHumidity = bottomSheet.cardHumidity.textViewCardInfo;
-                    cardHumidity.setText(today.getHumidity() + "%");
-                    cardHumidity.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_humidity, 0, 0, 0
-                    );
-
-                    // 3
-                    TextView cardWindSpeed = bottomSheet.cardWindSpeed.textViewCardInfo;
-                    cardWindSpeed.setText(today.getWindSpeed() + " m/s");
-                    cardWindSpeed.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_breeze, 0, 0, 0
-                    );
-
-                    // 4
-                    TextView cardPressure = bottomSheet.cardPressure.textViewCardInfo;
-                    cardPressure.setText(today.getPressure() + " hPa");
-                    cardPressure.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_barometer, 0, 0, 0
-                    );
+                    uiUpdater.updateAll();
                 }
             );
         }
@@ -191,11 +152,11 @@ public class MainActivity
 
         LayoutTransition transition = new LayoutTransition();
         transition.setAnimateParentHierarchy(false);
-
         bottomSheetLayout.setLayoutTransition(transition);
 
-        BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior =
-            BottomSheetBehavior.from(bottomSheetLayout);
+        BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior = BottomSheetBehavior.from(
+            bottomSheetLayout
+        );
 
         MaterialButton button = binding.content.bottomSheet.buttonWeekForecast;
         LinearLayoutCompat infoLayout = binding.content.bottomSheet.layoutInfoCards;
@@ -204,16 +165,18 @@ public class MainActivity
             new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
                 public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                        if (button.getVisibility() != View.GONE) {
-                            button.setVisibility(View.INVISIBLE);
+                    if (!loadError) {
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            if (button.getVisibility() != View.GONE) {
+                                button.setVisibility(View.INVISIBLE);
+                            }
+                            button.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.VISIBLE);
                         }
-                        button.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.VISIBLE);
-                    }
-                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                        infoLayout.setVisibility(View.INVISIBLE);
-                        button.setVisibility(View.VISIBLE);
+                        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                            infoLayout.setVisibility(View.INVISIBLE);
+                            button.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 

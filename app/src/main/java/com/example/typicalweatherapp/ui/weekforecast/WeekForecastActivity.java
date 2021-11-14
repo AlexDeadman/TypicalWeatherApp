@@ -1,36 +1,28 @@
 package com.example.typicalweatherapp.ui.weekforecast;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.animation.DecelerateInterpolator;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.daily.Daily;
 import com.example.typicalweatherapp.databinding.ActivityWeekForecastBinding;
-import com.example.typicalweatherapp.utils.UiUtils;
+import com.example.typicalweatherapp.ui.BaseActivity;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.Duration;
 import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
-import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
-public class WeekForecastActivity extends AppCompatActivity implements CardStackListener {
-
-    private ActivityWeekForecastBinding binding;
+public class WeekForecastActivity extends BaseActivity implements CardStackListener {
 
     ArrayList<Daily> dailies;
 
@@ -42,15 +34,17 @@ public class WeekForecastActivity extends AppCompatActivity implements CardStack
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityWeekForecastBinding.inflate(getLayoutInflater());
+        ActivityWeekForecastBinding binding = ActivityWeekForecastBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        UiUtils.initActionBar(getSupportActionBar(), getString(R.string.week_forecast));
+        initActionBar(getSupportActionBar(), getString(R.string.week_forecast));
 
         dailies = fetchDailies();
 
         if (dailies != null) {
-            adapter = new CardStackAdapter(dailies);
+            Context appContext = getApplicationContext();
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
+            adapter = new CardStackAdapter(dailies, preferences);
             cardStackView = binding.cardStackView;
 
             manager = new CardStackLayoutManager(this, this);

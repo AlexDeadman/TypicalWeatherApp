@@ -5,32 +5,27 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.utils.UiUtils;
-import com.example.typicalweatherapp.databinding.ActivitySettingsBinding;
+import com.example.typicalweatherapp.ui.BaseActivity;
 
-public class SettingsActivity extends AppCompatActivity {
-
-    private ActivitySettingsBinding binding;
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_settings);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.units_settings, SettingsFragment.newInstance(R.xml.units_preferences))
-                    .replace(R.id.general_settings, SettingsFragment.newInstance(R.xml.general_preferences))
-                    .commit();
+                .beginTransaction()
+                .replace(R.id.units_settings, SettingsFragment.newInstance(R.xml.units_preferences))
+                .replace(R.id.general_settings, SettingsFragment.newInstance(R.xml.general_preferences))
+                .commit();
         }
-        UiUtils.initActionBar(getSupportActionBar(), getString(R.string.settings));
+
+        initActionBar(getSupportActionBar(), getString(R.string.settings));
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

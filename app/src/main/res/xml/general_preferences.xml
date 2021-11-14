@@ -5,7 +5,7 @@
 
     <PreferenceCategory>
         <ListPreference
-            android:defaultValue="en"
+            android:defaultValue="sys_lang"
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values"
             app:key="lang"

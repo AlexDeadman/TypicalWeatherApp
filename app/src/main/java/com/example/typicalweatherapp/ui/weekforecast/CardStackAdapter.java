@@ -1,10 +1,10 @@
 package com.example.typicalweatherapp.ui.weekforecast;
 
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,18 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.daily.Daily;
 import com.example.typicalweatherapp.databinding.ItemWeekForecastBinding;
-import com.example.typicalweatherapp.utils.UiUtils;
+import com.example.typicalweatherapp.utils.UiFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
     private ArrayList<Daily> dailies;
+    private final UiFormatter formatter;
 
-    public CardStackAdapter(ArrayList<Daily> dailies) {
+    public CardStackAdapter(
+        ArrayList<Daily> dailies,
+        SharedPreferences preferences
+    ) {
         this.dailies = dailies;
+        this.formatter = new UiFormatter(preferences);
+
+        formatter.updateAllUnits();
     }
 
     @NonNull
@@ -41,30 +46,40 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         ItemWeekForecastBinding binding = holder.binding;
 
         binding.textViewDailyDate.setText(
-            UiUtils.formatDate(daily.getDt())
+            formatter.formatDate(daily.getDt())
         );
         binding.imageViewDailyWeather.setImageDrawable(
-            UiUtils.getWeatherDrawable(
+            formatter.getWeatherDrawable(
                 holder.itemView.getContext(),
                 daily.getWeather().get(0)
             )
         );
 
-        // TODO use text placeholders or handle by utils
+        Resources res = holder.itemView.getResources();
 
         binding.textViewWfTemperature.setText(
-            Math.round(daily.getTemp().getDay()) + "˚C"
+            res.getString(
+                formatter.getTempPlaceholderId(),
+                formatter.formatTemp(daily.getTemp().getDay()))
         );
         binding.textViewWfWindSpeed.setText(
-            daily.getWindSpeed() + " m/s"
+            res.getString(
+                formatter.getSpeedPlaceholderId(),
+                formatter.formatSpeed(daily.getWindSpeed())
+            )
         );
         binding.textViewWfInfoHumidity.setText(
-            daily.getHumidity() + "%"
+            res.getString(
+                R.string.humidity_p,
+                daily.getHumidity()
+            )
         );
         binding.textViewWfPressure.setText(
-            daily.getPressure() + " hPa"
+            res.getString(
+                formatter.getPressurePlaceholderId(),
+                formatter.formatPressure(daily.getPressure())
+            )
         );
-
     }
 
     @Override
@@ -82,7 +97,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ItemWeekForecastBinding binding;
+        final ItemWeekForecastBinding binding;
 
         public ViewHolder(@NonNull View view) {
             super(view);
