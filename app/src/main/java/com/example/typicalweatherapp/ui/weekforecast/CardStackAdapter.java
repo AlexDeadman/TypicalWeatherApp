@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.daily.Daily;
+import com.example.typicalweatherapp.data.model.weather.daily.Daily;
 import com.example.typicalweatherapp.databinding.ItemWeekForecastBinding;
 import com.example.typicalweatherapp.utils.UiFormatter;
 

@@ -9,10 +9,10 @@ import android.widget.TextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.Weather;
-import com.example.typicalweatherapp.data.model.WeatherInfo;
-import com.example.typicalweatherapp.data.model.daily.Daily;
-import com.example.typicalweatherapp.data.model.hourly.Hourly;
+import com.example.typicalweatherapp.data.model.weather.Weather;
+import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
+import com.example.typicalweatherapp.data.model.weather.daily.Daily;
+import com.example.typicalweatherapp.data.model.weather.hourly.Hourly;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.databinding.CardWeatherBinding;

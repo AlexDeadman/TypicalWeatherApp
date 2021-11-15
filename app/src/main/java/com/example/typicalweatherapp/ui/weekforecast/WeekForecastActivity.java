@@ -10,7 +10,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.daily.Daily;
+import com.example.typicalweatherapp.data.model.weather.daily.Daily;
 import com.example.typicalweatherapp.databinding.ActivityWeekForecastBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;

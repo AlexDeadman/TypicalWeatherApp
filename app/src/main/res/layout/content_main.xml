@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     style="@style/ContentBackground">
 
-    <com.savvyapps.togglebuttonlayout.ToggleButtonLayout
-        android:id="@+id/toggle_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="100dp"
-        android:visibility="gone"
-        app:allowDeselection="false"
-        app:cardCornerRadius="30dp"
-        app:customLayout="@layout/toggle_text"
-        app:menu="@menu/temperature_toggles"
-        app:selectedColor="?attr/colorSecondary" />
-
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button_menu"
         style="@style/CircleButtonStyle"

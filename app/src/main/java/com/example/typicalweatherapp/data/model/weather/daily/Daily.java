@@ -1,9 +1,9 @@
-package com.example.typicalweatherapp.data.model.daily;
+package com.example.typicalweatherapp.data.model.weather.daily;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.typicalweatherapp.data.model.WeatherInfo;
+import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

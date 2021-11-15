@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp.ui.main;
+package com.example.typicalweatherapp.ui.addcity;
 
 import android.util.Log;
 
@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.typicalweatherapp.App;
-import com.example.typicalweatherapp.data.model.weather.Weather;
-import com.example.typicalweatherapp.data.repository.WeatherRepository;
+import com.example.typicalweatherapp.data.model.city.search.Geonames;
+import com.example.typicalweatherapp.data.repository.CitySearchRepository;
 import com.example.typicalweatherapp.utils.Constants;
 
 import javax.inject.Inject;
@@ -18,40 +18,39 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainViewModel extends ViewModel {
-
-    private static final String TAG = "MainViewModel";
+public class AddCityViewModel extends ViewModel {
+    private static final String TAG = "AddCityViewModel";
 
     @Inject
-    public WeatherRepository weatherRepository;
+    public CitySearchRepository citySearchRepository;
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    private final MutableLiveData<Weather> mWeather = new MutableLiveData<>();
+    private final MutableLiveData<Geonames> mGeonames = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
 
-    public MainViewModel() {
+    private String query;
+
+    public AddCityViewModel() {
         App.getAppComponent().inject(this);
-        fetchWeather();
     }
 
-    public void fetchWeather() {
-        disposable.add(weatherRepository
-            .getWeather(
-                59.939098, // TODO HARDCODED
-                30.315868, // TODO HARDCODED
-                "minutely",
-                "metric",
-                Constants.OWM_API_KEY
+    public void fetchGeonames() {
+        disposable.add(citySearchRepository
+            .getCities(
+                query,
+                10,
+                "ru",
+                Constants.GN_USERNAME
             )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(
-                new DisposableSingleObserver<Weather>() {
+                new DisposableSingleObserver<Geonames>() {
                     @Override
-                    public void onSuccess(Weather weather) {
+                    public void onSuccess(Geonames geonames) {
                         loadError.setValue(false);
-                        mWeather.setValue(weather);
+                        mGeonames.setValue(geonames);
                     }
 
                     @Override
@@ -73,8 +72,12 @@ public class MainViewModel extends ViewModel {
         }
     }
 
-    public LiveData<Weather> getWeather() {
-        return mWeather;
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public LiveData<Geonames> getGeonames() {
+        return mGeonames;
     }
 
     public LiveData<Boolean> getLoadError() {

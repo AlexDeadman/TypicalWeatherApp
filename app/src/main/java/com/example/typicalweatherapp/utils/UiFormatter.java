@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.WeatherInfo;
+import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,7 +85,7 @@ public class UiFormatter {
     }
 
     public String formatDate(int dt) {
-        // TODO                                                     HARDCODED
+                                                            // TODO HARDCODED
         return new SimpleDateFormat("d MMMM", new Locale("en")).format(
             new Date(dt * 1000L)
         );
@@ -98,21 +98,21 @@ public class UiFormatter {
             drawableId = R.drawable.w_partly_cloudy;
         } else {
             switch (weatherInfo.getMain()) {
-                case ("Clear"):
+                case "Clear":
                     drawableId = R.drawable.w_sunny;
                     break;
-                case ("Drizzle"):
-                case ("Clouds"):
-                case ("Atmosphere"):
+                case "Drizzle":
+                case "Clouds":
+                case "Atmosphere":
                     drawableId = R.drawable.w_cloudy;
                     break;
-                case ("Rain"):
+                case "Rain":
                     drawableId = R.drawable.w_rainy;
                     break;
-                case ("Thunderstorm"):
+                case "Thunderstorm":
                     drawableId = R.drawable.w_thunderstorm;
                     break;
-                case ("Snow"):
+                case "Snow":
                     drawableId = R.drawable.w_snowy;
                     break;
             }

@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp.data.model.daily;
+package com.example.typicalweatherapp.data.model.weather.daily;
 
 import android.os.Parcel;
 import android.os.Parcelable;

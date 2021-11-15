@@ -1,11 +1,11 @@
-package com.example.typicalweatherapp.data.model.hourly;
+package com.example.typicalweatherapp.data.model.weather.current;
 
-import com.example.typicalweatherapp.data.model.WeatherInfo;
+import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Hourly {
+public class Current {
 
     private Integer dt;
 
@@ -20,7 +20,7 @@ public class Hourly {
 
     private List<WeatherInfo> weather = null;
 
-    public Hourly(
+    public Current(
         Integer dt,
         Double temp,
         Integer pressure,
@@ -36,7 +36,7 @@ public class Hourly {
         this.weather = weather;
     }
 
-    public Hourly() {
+    public Current() {
     }
 
     public Integer getDt() {
@@ -86,4 +86,5 @@ public class Hourly {
     public void setWeather(List<WeatherInfo> weather) {
         this.weather = weather;
     }
+
 }

@@ -2,7 +2,7 @@ package com.example.typicalweatherapp.ui.weekforecast;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.example.typicalweatherapp.data.model.daily.Daily;
+import com.example.typicalweatherapp.data.model.weather.daily.Daily;
 
 import java.util.ArrayList;
 

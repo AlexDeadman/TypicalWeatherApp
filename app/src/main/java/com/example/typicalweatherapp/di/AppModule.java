@@ -1,8 +1,7 @@
 package com.example.typicalweatherapp.di;
 
-import androidx.annotation.NonNull;
-
-import com.example.typicalweatherapp.api.ApiService;
+import com.example.typicalweatherapp.api.GnApiService;
+import com.example.typicalweatherapp.api.OwmApiService;
 import com.example.typicalweatherapp.utils.Constants;
 
 import javax.inject.Singleton;
@@ -17,17 +16,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AppModule {
     @Provides
     @Singleton
-    public Retrofit provideRetrofit() {
+    public OwmApiService provideOwmApiService() {
         return new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constants.BASE_URL)
-                .build();
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(Constants.OWM_BASE_URL)
+            .build()
+            .create(OwmApiService.class);
     }
 
     @Provides
     @Singleton
-    public ApiService provideApiService(@NonNull Retrofit retrofit) {
-        return retrofit.create(ApiService.class);
+    public GnApiService provideGnApiService() {
+        return new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(Constants.GN_BASE_URL)
+            .build()
+            .create(GnApiService.class);
     }
 }

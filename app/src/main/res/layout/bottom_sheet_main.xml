@@ -50,7 +50,7 @@
         tools:visibility="visible"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_info_cards"
+        android:id="@+id/layout_day_weather_cards"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"

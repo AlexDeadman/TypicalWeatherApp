@@ -1,8 +1,8 @@
-package com.example.typicalweatherapp.data.model;
+package com.example.typicalweatherapp.data.model.weather;
 
-import com.example.typicalweatherapp.data.model.current.Current;
-import com.example.typicalweatherapp.data.model.daily.Daily;
-import com.example.typicalweatherapp.data.model.hourly.Hourly;
+import com.example.typicalweatherapp.data.model.weather.current.Current;
+import com.example.typicalweatherapp.data.model.weather.daily.Daily;
+import com.example.typicalweatherapp.data.model.weather.hourly.Hourly;
 
 import java.util.ArrayList;
 import java.util.List;
