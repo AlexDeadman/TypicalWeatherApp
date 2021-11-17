@@ -29,16 +29,18 @@ public class AddCityViewModel extends ViewModel {
     private final MutableLiveData<Geonames> mGeonames = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
 
-    private String query;
-
     public AddCityViewModel() {
         App.getAppComponent().inject(this);
     }
 
-    // TODO fix fetching
-    public void fetchGeonames() {
+    public void fetchGeonames(String query) {
         compositeDisposable.add(citySearchRepository
-            .getCities(query, 10, "ru", Constants.GN_USERNAME)
+            .getCities(
+                query,
+                20,
+                "en", // TODO HARDCODED
+                Constants.GN_USERNAME
+            )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(
@@ -66,12 +68,6 @@ public class AddCityViewModel extends ViewModel {
             compositeDisposable.clear();
             compositeDisposable = null;
         }
-    }
-
-    public void setQuery(String query) {
-        compositeDisposable.clear(); // not works
-        this.query = query;
-        fetchGeonames();
     }
 
     public LiveData<Geonames> getGeonames() {

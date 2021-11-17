@@ -24,11 +24,8 @@ import java.util.ArrayList;
 
 public class WeekForecastActivity extends BaseActivity implements CardStackListener {
 
-    ArrayList<Daily> dailies;
-
-    CardStackAdapter adapter;
-    CardStackLayoutManager manager;
-    CardStackView cardStackView;
+    private CardStackAdapter adapter;
+    private CardStackLayoutManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,13 +36,13 @@ public class WeekForecastActivity extends BaseActivity implements CardStackListe
 
         initActionBar(getSupportActionBar(), getString(R.string.week_forecast));
 
-        dailies = fetchDailies();
+        ArrayList<Daily> dailies = fetchDailies();
 
         if (dailies != null) {
             Context appContext = getApplicationContext();
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
             adapter = new CardStackAdapter(dailies, preferences);
-            cardStackView = binding.cardStackView;
+            CardStackView cardStackView = binding.cardStackView;
 
             manager = new CardStackLayoutManager(this, this);
             manager.setDirections(Direction.HORIZONTAL);

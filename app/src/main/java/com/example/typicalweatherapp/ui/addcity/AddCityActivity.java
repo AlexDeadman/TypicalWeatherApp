@@ -1,8 +1,10 @@
 package com.example.typicalweatherapp.ui.addcity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -10,20 +12,48 @@ import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.databinding.ActivityAddCityBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
+
+import java.util.ArrayList;
 
 public class AddCityActivity extends BaseActivity {
 
+    private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
-    private boolean loadError;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_city);
+
+        binding = ActivityAddCityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         initActionBar(getSupportActionBar(), "");
 
         viewModel = new ViewModelProvider(this).get(AddCityViewModel.class);
+
+        viewModel.getLoadError().observe(this, value -> {
+            if (value) {
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>());
+        binding.recyclerViewCities.setAdapter(adapter);
+
+        viewModel.getGeonames().observe(
+            this,
+            geonames -> {
+                adapter.setGeonames(geonames.getGeonames());
+                adapter.notifyDataSetChanged();
+                binding.progressBar.setVisibility(View.GONE);
+                if (geonames.getGeonames().size() == 0) {
+                    binding.textViewNotFound.setVisibility(View.VISIBLE);
+                }
+            }
+        );
     }
 
     @Override
@@ -35,8 +65,9 @@ public class AddCityActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                viewModel.setQuery(query);
-                updateCities();
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.textViewNotFound.setVisibility(View.GONE);
+                viewModel.fetchGeonames(query);
                 return false;
             }
 
@@ -49,21 +80,5 @@ public class AddCityActivity extends BaseActivity {
         menu.performIdentifierAction(R.id.action_search, 0);
 
         return true;
-    }
-
-    void updateCities() {
-        viewModel.getLoadError().observe(this, value -> loadError = value);
-
-        if (!loadError) {
-            viewModel.getGeonames().observe(
-                this,
-                geonames -> {
-                    String geonameId = geonames.getGeonames().get(0).getGeonameId().toString();
-                    Toast.makeText(this, geonameId, Toast.LENGTH_SHORT).show();
-                }
-            );
-        } else {
-            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-        }
     }
 }

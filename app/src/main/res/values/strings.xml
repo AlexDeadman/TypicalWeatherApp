@@ -54,4 +54,5 @@
     <string name="network_error">Network error</string>
     <string name="search">Search</string>
     <string name="add_city">Add city</string>
+    <string name="not_found">Not found</string>
 </resources>
