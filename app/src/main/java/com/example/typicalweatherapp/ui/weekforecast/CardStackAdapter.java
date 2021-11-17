@@ -1,6 +1,5 @@
 package com.example.typicalweatherapp.ui.weekforecast;
 
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.weather.daily.Daily;
 import com.example.typicalweatherapp.databinding.ItemWeekForecastBinding;
-import com.example.typicalweatherapp.utils.UiFormatter;
+import com.example.typicalweatherapp.utils.UiUtils;
+import com.example.typicalweatherapp.utils.UnitsFormatter;
 
 import java.util.ArrayList;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
     private ArrayList<Daily> dailies;
-    private final UiFormatter formatter;
+    private final UnitsFormatter formatter;
 
-    public CardStackAdapter(
-        ArrayList<Daily> dailies,
-        SharedPreferences preferences
-    ) {
+    public CardStackAdapter(ArrayList<Daily> dailies) {
         this.dailies = dailies;
-        this.formatter = new UiFormatter(preferences);
-
+        this.formatter = new UnitsFormatter();
         formatter.updateAllUnits();
     }
 
@@ -46,10 +42,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         ItemWeekForecastBinding binding = holder.binding;
 
         binding.textViewDailyDate.setText(
-            formatter.formatDate(daily.getDt())
+            UiUtils.formatDate(daily.getDt())
         );
         binding.imageViewDailyWeather.setImageDrawable(
-            formatter.getWeatherDrawable(
+            UiUtils.getWeatherDrawable(
                 holder.itemView.getContext(),
                 daily.getWeather().get(0)
             )

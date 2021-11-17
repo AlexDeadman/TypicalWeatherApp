@@ -16,7 +16,8 @@ import com.example.typicalweatherapp.data.model.weather.hourly.Hourly;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.databinding.CardWeatherBinding;
-import com.example.typicalweatherapp.utils.UiFormatter;
+import com.example.typicalweatherapp.utils.UiUtils;
+import com.example.typicalweatherapp.utils.UnitsFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,13 +30,12 @@ class MainUiUpdater {
     private final Weather weather;
 
     private final BottomSheetMainBinding bottomSheet;
-    private final UiFormatter formatter;
+    private final UnitsFormatter formatter;
     private final Daily today;
 
     public MainUiUpdater(
         Context context,
         ActivityMainBinding binding,
-        SharedPreferences preferences,
         LayoutInflater layoutInflater,
         Weather weather
     ) {
@@ -45,7 +45,7 @@ class MainUiUpdater {
         this.weather = weather;
 
         this.bottomSheet = this.binding.content.bottomSheet;
-        this.formatter = new UiFormatter(preferences);
+        this.formatter = new UnitsFormatter();
         this.today = this.weather.getDaily().get(0);
     }
 
@@ -69,7 +69,7 @@ class MainUiUpdater {
             )
         );
         binding.content.textViewCurrentDate.setText(
-            formatter.formatDate(today.getDt())
+            UiUtils.formatDate(today.getDt())
         );
     }
 
@@ -97,7 +97,7 @@ class MainUiUpdater {
 
             WeatherInfo hourlyWeather = hourly.getWeather().get(0);
             cardBinding.imageViewWeather.setImageDrawable(
-                formatter.getWeatherDrawable(context, hourlyWeather)
+                UiUtils.getWeatherDrawable(context, hourlyWeather)
             );
 
             cardBinding.textViewDegrees.setText(

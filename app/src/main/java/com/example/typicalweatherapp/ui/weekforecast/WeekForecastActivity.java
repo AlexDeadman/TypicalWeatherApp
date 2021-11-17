@@ -39,9 +39,7 @@ public class WeekForecastActivity extends BaseActivity implements CardStackListe
         ArrayList<Daily> dailies = fetchDailies();
 
         if (dailies != null) {
-            Context appContext = getApplicationContext();
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-            adapter = new CardStackAdapter(dailies, preferences);
+            adapter = new CardStackAdapter(dailies);
             CardStackView cardStackView = binding.cardStackView;
 
             manager = new CardStackLayoutManager(this, this);

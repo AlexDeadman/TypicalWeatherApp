@@ -11,11 +11,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
@@ -23,6 +25,7 @@ import com.example.typicalweatherapp.ui.about.AboutActivity;
 import com.example.typicalweatherapp.ui.addcity.AddCityActivity;
 import com.example.typicalweatherapp.ui.settings.SettingsActivity;
 import com.example.typicalweatherapp.ui.weekforecast.WeekForecastActivity;
+import com.example.typicalweatherapp.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -36,13 +39,11 @@ public class MainActivity extends AppCompatActivity
     private ActivityMainBinding binding;
 
     private BottomSheetMainBinding bottomSheetBinding;
-    BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior;
+    private BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior;
     private MaterialButton weekForecastButton;
 
     private MainViewModel viewModel;
     private MainUiUpdater uiUpdater;
-
-    private SharedPreferences preferences;
     private boolean loadError;
 
     @Override
@@ -54,13 +55,12 @@ public class MainActivity extends AppCompatActivity
 
         initBottomSheet();
 
-        Context appContext = getApplicationContext();
-        preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-        preferences.registerOnSharedPreferenceChangeListener(this);
+        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        UiUtils.updateTheme();
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         updateWeather();
-
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -194,7 +194,6 @@ public class MainActivity extends AppCompatActivity
                     uiUpdater = new MainUiUpdater(
                         this,
                         binding,
-                        preferences,
                         getLayoutInflater(),
                         weather
                     );
