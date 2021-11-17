@@ -1,5 +1,7 @@
 package com.example.typicalweatherapp.di;
 
+import androidx.annotation.NonNull;
+
 import com.example.typicalweatherapp.api.GnApiService;
 import com.example.typicalweatherapp.api.OwmApiService;
 import com.example.typicalweatherapp.utils.Constants;
@@ -15,11 +17,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
     @Provides
-    @Singleton
-    public OwmApiService provideOwmApiService() {
+    public Retrofit.Builder provideRetrofitBuilder() {
         return new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+    }
+
+    @Provides
+    @Singleton
+    public OwmApiService provideOwmApiService(@NonNull Retrofit.Builder builder) {
+        return builder
             .baseUrl(Constants.OWM_BASE_URL)
             .build()
             .create(OwmApiService.class);
@@ -27,10 +34,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public GnApiService provideGnApiService() {
-        return new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+    public GnApiService provideGnApiService(@NonNull Retrofit.Builder builder) {
+        return builder
             .baseUrl(Constants.GN_BASE_URL)
             .build()
             .create(GnApiService.class);

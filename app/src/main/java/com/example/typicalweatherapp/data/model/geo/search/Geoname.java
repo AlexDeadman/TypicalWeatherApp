@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp.data.model.city.search;
+package com.example.typicalweatherapp.data.model.geo.search;
 
 public class Geoname {
     private String lng;

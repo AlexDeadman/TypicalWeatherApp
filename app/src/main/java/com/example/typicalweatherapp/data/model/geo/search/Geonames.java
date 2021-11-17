@@ -1,4 +1,4 @@
-package com.example.typicalweatherapp.data.model.city.search;
+package com.example.typicalweatherapp.data.model.geo.search;
 
 import java.util.List;
 

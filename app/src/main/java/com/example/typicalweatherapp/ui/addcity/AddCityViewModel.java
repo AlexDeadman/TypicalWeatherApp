@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.typicalweatherapp.App;
-import com.example.typicalweatherapp.data.model.city.search.Geonames;
+import com.example.typicalweatherapp.data.model.geo.search.Geonames;
 import com.example.typicalweatherapp.data.repository.CitySearchRepository;
 import com.example.typicalweatherapp.utils.Constants;
 
@@ -24,7 +24,7 @@ public class AddCityViewModel extends ViewModel {
     @Inject
     public CitySearchRepository citySearchRepository;
 
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private final MutableLiveData<Geonames> mGeonames = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
@@ -35,14 +35,10 @@ public class AddCityViewModel extends ViewModel {
         App.getAppComponent().inject(this);
     }
 
+    // TODO fix fetching
     public void fetchGeonames() {
-        disposable.add(citySearchRepository
-            .getCities(
-                query,
-                10,
-                "ru",
-                Constants.GN_USERNAME
-            )
+        compositeDisposable.add(citySearchRepository
+            .getCities(query, 10, "ru", Constants.GN_USERNAME)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(
@@ -66,14 +62,16 @@ public class AddCityViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        if (disposable != null) {
-            disposable.clear();
-            disposable = null;
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+            compositeDisposable = null;
         }
     }
 
     public void setQuery(String query) {
+        compositeDisposable.clear(); // not works
         this.query = query;
+        fetchGeonames();
     }
 
     public LiveData<Geonames> getGeonames() {

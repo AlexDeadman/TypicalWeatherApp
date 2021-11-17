@@ -183,17 +183,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     void updateWeather() {
-        viewModel.getLoadError().observe(this, value -> {
-            loadError = value;
-            if (value) {
-                bottomSheetBinding.progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(
-                    this,
-                    R.string.network_error,
-                    Toast.LENGTH_SHORT
-                ).show();
-            }
-        });
+        viewModel.getLoadError().observe(this, value -> loadError = value);
 
         if (!loadError) {
             viewModel.getWeather().observe(
@@ -212,6 +202,9 @@ public class MainActivity extends AppCompatActivity
                     uiUpdater.updateAll();
                 }
             );
+        } else {
+            bottomSheetBinding.progressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
         }
     }
 }

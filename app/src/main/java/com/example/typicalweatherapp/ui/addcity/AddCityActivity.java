@@ -52,32 +52,18 @@ public class AddCityActivity extends BaseActivity {
     }
 
     void updateCities() {
-        // TODO fix fetching
-        viewModel.fetchGeonames();
-
-        viewModel.getLoadError().observe(
-            this,
-            value -> {
-                loadError = value;
-                if (value) {
-                    Toast.makeText(
-                        this,
-                        R.string.network_error,
-                        Toast.LENGTH_SHORT
-                    ).show();
-                }
-            }
-        );
+        viewModel.getLoadError().observe(this, value -> loadError = value);
 
         if (!loadError) {
             viewModel.getGeonames().observe(
                 this,
-                geonames -> Toast.makeText(
-                    this,
-                    geonames.getGeonames().get(0).getGeonameId().toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
+                geonames -> {
+                    String geonameId = geonames.getGeonames().get(0).getGeonameId().toString();
+                    Toast.makeText(this, geonameId, Toast.LENGTH_SHORT).show();
+                }
             );
+        } else {
+            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
         }
     }
 }

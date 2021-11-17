@@ -1,8 +1,7 @@
 package com.example.typicalweatherapp.data.repository;
 
 import com.example.typicalweatherapp.api.GnApiService;
-import com.example.typicalweatherapp.api.OwmApiService;
-import com.example.typicalweatherapp.data.model.city.search.Geonames;
+import com.example.typicalweatherapp.data.model.geo.search.Geonames;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

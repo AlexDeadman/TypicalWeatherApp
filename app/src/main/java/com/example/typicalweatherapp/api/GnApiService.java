@@ -1,6 +1,6 @@
 package com.example.typicalweatherapp.api;
 
-import com.example.typicalweatherapp.data.model.city.search.Geonames;
+import com.example.typicalweatherapp.data.model.geo.search.Geonames;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
