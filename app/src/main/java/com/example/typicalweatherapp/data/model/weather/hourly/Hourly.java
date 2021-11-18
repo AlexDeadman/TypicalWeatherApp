@@ -8,11 +8,8 @@ import java.util.List;
 public class Hourly {
 
     private Integer dt;
-
     private Double temp;
-
     private Integer pressure;
-
     private Integer humidity;
 
     @SerializedName("wind_speed")

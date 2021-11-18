@@ -10,9 +10,7 @@ import java.util.List;
 public class Weather {
 
     private Current current;
-
     private List<Hourly> hourly = null;
-
     private ArrayList<Daily> daily = null;
 
     public Weather(

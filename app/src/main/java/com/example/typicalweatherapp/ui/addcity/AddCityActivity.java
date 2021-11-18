@@ -43,13 +43,13 @@ public class AddCityActivity extends BaseActivity {
         CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>());
         binding.recyclerViewCities.setAdapter(adapter);
 
-        viewModel.getGeonames().observe(
+        viewModel.getCities().observe(
             this,
-            geonames -> {
-                adapter.setGeonames(geonames.getGeonames());
+            cities -> {
+                adapter.setGeonames(cities.getGeonames());
                 adapter.notifyDataSetChanged();
                 binding.progressBar.setVisibility(View.GONE);
-                if (geonames.getGeonames().size() == 0) {
+                if (cities.getGeonames().size() == 0) {
                     binding.textViewNotFound.setVisibility(View.VISIBLE);
                 }
             }
@@ -67,7 +67,7 @@ public class AddCityActivity extends BaseActivity {
             public boolean onQueryTextSubmit(String query) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.textViewNotFound.setVisibility(View.GONE);
-                viewModel.fetchGeonames(query);
+                viewModel.fetchCities(query);
                 return false;
             }
 

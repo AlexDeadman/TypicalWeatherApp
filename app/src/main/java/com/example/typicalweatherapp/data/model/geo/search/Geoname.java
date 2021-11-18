@@ -1,6 +1,7 @@
 package com.example.typicalweatherapp.data.model.geo.search;
 
 public class Geoname {
+
     private String lng;
     private Integer geonameId;
     private String name;

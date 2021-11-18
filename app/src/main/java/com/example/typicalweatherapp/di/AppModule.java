@@ -2,6 +2,7 @@ package com.example.typicalweatherapp.di;
 
 import androidx.annotation.NonNull;
 
+import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.api.GnApiService;
 import com.example.typicalweatherapp.api.OwmApiService;
 import com.example.typicalweatherapp.utils.Constants;
@@ -39,5 +40,13 @@ public class AppModule {
             .baseUrl(Constants.GN_BASE_URL)
             .build()
             .create(GnApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public void provideFavouriteCities() {
+        String favouriteCitiesJson = App
+            .getPreferences()
+            .getString("favourite_cities", "");
     }
 }

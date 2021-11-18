@@ -11,11 +11,8 @@ import java.util.ArrayList;
 public class Daily implements Parcelable {
 
     private Integer dt;
-
     private Temp temp;
-
     private Integer pressure;
-
     private Integer humidity;
 
     @SerializedName("wind_speed")

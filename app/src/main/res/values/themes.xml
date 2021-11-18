@@ -43,6 +43,15 @@
         <item name="neumorph_cornerSize">35dp</item>
     </style>
 
+    <style name="FavouriteCardsShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">20dp</item>
+    </style>
+
+    <style name="FavouriteRemoveCard">
+        <item name="cardBackgroundColor">#C8DAFF</item>
+    </style>
+
     <style name="DrawerTextAppearance">
         <item name="android:textSize">20sp</item>
     </style>

@@ -8,11 +8,8 @@ import java.util.List;
 public class Current {
 
     private Integer dt;
-
     private Double temp;
-
     private Integer pressure;
-
     private Integer humidity;
 
     @SerializedName("wind_speed")

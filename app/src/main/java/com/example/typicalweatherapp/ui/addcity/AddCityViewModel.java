@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.typicalweatherapp.App;
-import com.example.typicalweatherapp.data.model.geo.search.Geonames;
-import com.example.typicalweatherapp.data.repository.CitySearchRepository;
+import com.example.typicalweatherapp.data.model.geo.search.CitiesSearchResult;
+import com.example.typicalweatherapp.data.repository.GeonamesRepository;
 import com.example.typicalweatherapp.utils.Constants;
 
 import javax.inject.Inject;
@@ -22,19 +22,19 @@ public class AddCityViewModel extends ViewModel {
     private static final String TAG = "AddCityViewModel";
 
     @Inject
-    public CitySearchRepository citySearchRepository;
+    public GeonamesRepository geonamesRepository;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private final MutableLiveData<Geonames> mGeonames = new MutableLiveData<>();
+    private final MutableLiveData<CitiesSearchResult> mCities = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
 
     public AddCityViewModel() {
         App.getAppComponent().inject(this);
     }
 
-    public void fetchGeonames(String query) {
-        compositeDisposable.add(citySearchRepository
+    public void fetchCities(String query) {
+        compositeDisposable.add(geonamesRepository
             .getCities(
                 query,
                 20,
@@ -44,11 +44,11 @@ public class AddCityViewModel extends ViewModel {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(
-                new DisposableSingleObserver<Geonames>() {
+                new DisposableSingleObserver<CitiesSearchResult>() {
                     @Override
-                    public void onSuccess(Geonames geonames) {
+                    public void onSuccess(CitiesSearchResult cities) {
                         loadError.setValue(false);
-                        mGeonames.setValue(geonames);
+                        mCities.setValue(cities);
                     }
 
                     @Override
@@ -70,8 +70,8 @@ public class AddCityViewModel extends ViewModel {
         }
     }
 
-    public LiveData<Geonames> getGeonames() {
-        return mGeonames;
+    public LiveData<CitiesSearchResult> getCities() {
+        return mCities;
     }
 
     public LiveData<Boolean> getLoadError() {
