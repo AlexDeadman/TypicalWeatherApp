@@ -27,6 +27,10 @@
         <item name="neumorph_shadowColorLight">@color/card_shadow_light_dark</item>
     </style>
 
+    <style name="FavouriteRemoveCard">
+        <item name="cardBackgroundColor">#152A53</item>
+    </style>
+
     <style name="WfCardBackground">
         <item name="android:background">@drawable/item_week_forecast_bg_dark</item>
     </style>

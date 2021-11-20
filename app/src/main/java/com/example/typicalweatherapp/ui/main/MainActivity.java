@@ -1,7 +1,6 @@
 package com.example.typicalweatherapp.ui.main;
 
 import android.animation.LayoutTransition;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,25 +10,28 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
 import com.example.typicalweatherapp.ui.addcity.AddCityActivity;
+import com.example.typicalweatherapp.ui.favourite.FavouriteActivity;
 import com.example.typicalweatherapp.ui.settings.SettingsActivity;
 import com.example.typicalweatherapp.ui.weekforecast.WeekForecastActivity;
+import com.example.typicalweatherapp.utils.Constants;
 import com.example.typicalweatherapp.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity
     implements
@@ -45,6 +47,11 @@ public class MainActivity extends AppCompatActivity
     private MainViewModel viewModel;
     private MainUiUpdater uiUpdater;
     private boolean loadError;
+
+    @Inject
+    public Favourites favourites;
+    @Inject
+    public Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (itemId == R.id.nav_favourite) {
-            // TODO
+            startActivity(new Intent(this, FavouriteActivity.class));
         }
 
         if (itemId == R.id.nav_about) {
@@ -88,6 +95,26 @@ public class MainActivity extends AppCompatActivity
         }
 
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.drawerLayout.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        App.getAppComponent().inject(this);
+
+        SharedPreferences.Editor editor = App.getPreferences().edit();
+
+        String favouriteCitiesJson = gson.toJson(favourites);
+        editor.putString(Constants.favouriteCitiesPrefKey, favouriteCitiesJson);
+
+        editor.apply();
     }
 
     @Override
@@ -105,25 +132,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        binding.drawerLayout.close();
-    }
-
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (uiUpdater != null) {
-            if (key.equals("units_temp")) {
+            if (key.equals(Constants.unitsTempPrefKey)) {
                 uiUpdater.updateMainInfo();
                 uiUpdater.updateWeatherCards();
                 uiUpdater.updateDayTempCard();
             }
 
-            if (key.equals("units_speed")) {
+            if (key.equals(Constants.unitsSpeedPrefKey)) {
                 uiUpdater.updateDayWindSpeed();
             }
 
-            if (key.equals("units_pressure")) {
+            if (key.equals(Constants.unitsPressurePrefKey)) {
                 uiUpdater.updateDayPressure();
             }
         }

@@ -2,15 +2,15 @@ package com.example.typicalweatherapp.data.model.geo.search;
 
 import java.util.ArrayList;
 
-public class CitiesSearchResult {
+public class CitySearchResult {
 
     private ArrayList<Geoname> geonames;
 
-    public CitiesSearchResult(ArrayList<Geoname> geonames) {
+    public CitySearchResult(ArrayList<Geoname> geonames) {
         this.geonames = geonames;
     }
 
-    public CitiesSearchResult() {
+    public CitySearchResult() {
     }
 
     public ArrayList<Geoname> getGeonames() {

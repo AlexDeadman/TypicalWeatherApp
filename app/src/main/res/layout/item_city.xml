@@ -36,6 +36,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
+            android:id="@+id/image_view_star"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

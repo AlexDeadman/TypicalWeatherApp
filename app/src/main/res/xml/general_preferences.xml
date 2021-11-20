@@ -3,24 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:divider="?attr/colorSecondary">
 
-    <PreferenceCategory>
-        <ListPreference
-            android:defaultValue="sys_lang"
-            android:entries="@array/language_entries"
-            android:entryValues="@array/language_values"
-            app:key="lang"
-            app:title="@string/language"
-            app:useSimpleSummaryProvider="true" />
-    </PreferenceCategory>
-
-    <PreferenceCategory>
-        <ListPreference
-            android:defaultValue="sys_theme"
-            android:entries="@array/theme_entries"
-            android:entryValues="@array/theme_values"
-            app:key="theme"
-            app:title="@string/color_theme"
-            app:useSimpleSummaryProvider="true" />
-    </PreferenceCategory>
+    <PreferenceCategory/>
+    <ListPreference
+        android:defaultValue="sys_theme"
+        android:entries="@array/theme_entries"
+        android:entryValues="@array/theme_values"
+        app:key="theme"
+        app:title="@string/color_theme"
+        app:useSimpleSummaryProvider="true" />
 
 </PreferenceScreen>

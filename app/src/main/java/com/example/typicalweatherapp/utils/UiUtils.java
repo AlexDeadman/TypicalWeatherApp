@@ -1,7 +1,6 @@
 package com.example.typicalweatherapp.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,7 @@ public class UiUtils {
 
     @NonNull
     public static String formatDate(int dt) {
-        // TODO HARDCODED
+        // TODO Language hardcoded
         return new SimpleDateFormat("d MMMM", new Locale("en")).format(
             new Date(dt * 1000L)
         );

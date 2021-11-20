@@ -1,12 +1,9 @@
 package com.example.typicalweatherapp.ui.weekforecast;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.typicalweatherapp.R;

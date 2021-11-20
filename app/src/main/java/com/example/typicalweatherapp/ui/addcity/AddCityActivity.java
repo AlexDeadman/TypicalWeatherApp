@@ -11,16 +11,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
+import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.databinding.ActivityAddCityBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class AddCityActivity extends BaseActivity {
+
+    private static final String TAG = "AddCityActivity";
 
     private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
+
+    @Inject
+    public Favourites favourites;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -40,7 +50,28 @@ public class AddCityActivity extends BaseActivity {
             }
         });
 
-        CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>());
+        App.getAppComponent().inject(this);
+
+        viewModel.getFavouriteCity().observe(
+            this,
+            favouriteCity -> {
+                boolean exist = false;
+                for (FavouriteCity favCity : favourites.getFavouriteCities()) {
+                    if (favCity.equals(favouriteCity)) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    favourites.getFavouriteCities().add(favouriteCity);
+                }
+            }
+        );
+
+        CitiesAdapter.OnCityClickListener cityClickListener =
+            geoname -> viewModel.fetchCity(geoname.getGeonameId());
+
+        CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>(), cityClickListener, favourites);
         binding.recyclerViewCities.setAdapter(adapter);
 
         viewModel.getCities().observe(

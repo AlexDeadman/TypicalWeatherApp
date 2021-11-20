@@ -2,7 +2,7 @@ package com.example.typicalweatherapp.data.repository;
 
 import com.example.typicalweatherapp.api.GnApiService;
 import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.model.geo.search.CitiesSearchResult;
+import com.example.typicalweatherapp.data.model.geo.search.CitySearchResult;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +19,7 @@ public class GeonamesRepository {
         this.apiService = apiService;
     }
 
-    public Single<CitiesSearchResult> getCities(
+    public Single<CitySearchResult> getCities(
         String q,
         int maxRows,
         String lang,

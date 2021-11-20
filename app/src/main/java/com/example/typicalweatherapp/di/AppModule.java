@@ -5,7 +5,10 @@ import androidx.annotation.NonNull;
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.api.GnApiService;
 import com.example.typicalweatherapp.api.OwmApiService;
+import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.utils.Constants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
@@ -44,9 +47,24 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public void provideFavouriteCities() {
+    public Gson provideGson() {
+        return new GsonBuilder().create();
+    }
+
+    @Provides
+    @Singleton
+    public Favourites provideFavouriteCities(Gson gson) {
+
+        // favourite cities are saves on destroy main activity
+
         String favouriteCitiesJson = App
             .getPreferences()
-            .getString("favourite_cities", "");
+            .getString(Constants.favouriteCitiesPrefKey, "");
+
+        if (favouriteCitiesJson.isEmpty()) {
+            return new Favourites();
+        } else {
+            return gson.fromJson(favouriteCitiesJson, Favourites.class);
+        }
     }
 }

@@ -38,8 +38,8 @@ public class MainViewModel extends ViewModel {
     public void fetchWeather() {
         disposable.add(weatherRepository
             .getWeather(
-                59.939098, // TODO HARDCODED
-                30.315868, // TODO HARDCODED
+                59.939098, // TODO Hardcoded
+                30.315868, // TODO Hardcoded
                 "minutely",
                 "metric",
                 Constants.OWM_API_KEY

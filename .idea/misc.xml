@@ -61,11 +61,15 @@
         <entry key="..\:/Users/Alexus/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/xml/units_preferences.xml" value="0.5" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/drawable/ic_baseline_arrow_back_ios.xml" value="0.225" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/drawable/ic_baseline_close.xml" value="0.225" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/drawable/ic_baseline_star.xml" value="0.21818181061547676" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/drawable/ic_baseline_star_outline.xml" value="0.21818181061547676" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/activity_about.xml" value="0.29583333333333334" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/activity_add_city.xml" value="0.29583333333333334" />
-        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/activity_favourite.xml" value="0.4363636212309535" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/activity_favourite.xml" value="0.2879999900124293" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/bottom_sheet_main.xml" value="0.29583333333333334" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/item_city.xml" value="0.29583333333333334" />
         <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/layout/item_favourite.xml" value="0.4363636212309535" />
+        <entry key="..\:/Users/alexo/AndroidStudioProjects/TypicalWeatherApp/app/src/main/res/xml/general_preferences.xml" value="0.29583333333333334" />
       </map>
     </option>
   </component>

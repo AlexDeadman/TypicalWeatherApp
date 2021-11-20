@@ -45,7 +45,7 @@
 
     <style name="FavouriteCardsShapeAppearance">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">20dp</item>
+        <item name="neumorph_cornerSize">18dp</item>
     </style>
 
     <style name="FavouriteRemoveCard">

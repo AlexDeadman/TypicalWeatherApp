@@ -1,6 +1,5 @@
 package com.example.typicalweatherapp.ui.settings;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;

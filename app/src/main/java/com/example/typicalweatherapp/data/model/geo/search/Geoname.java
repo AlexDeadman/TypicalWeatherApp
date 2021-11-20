@@ -1,5 +1,7 @@
 package com.example.typicalweatherapp.data.model.geo.search;
 
+import androidx.annotation.NonNull;
+
 public class Geoname {
 
     private String lng;
@@ -24,6 +26,19 @@ public class Geoname {
     }
 
     public Geoname() {
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Geoname{" +
+            "lng='" + lng + '\'' +
+            ", geonameId=" + geonameId +
+            ", name='" + name + '\'' +
+            ", countryName='" + countryName + '\'' +
+            ", adminName1='" + adminName1 + '\'' +
+            ", lat='" + lat + '\'' +
+            '}';
     }
 
     public String getLng() {
