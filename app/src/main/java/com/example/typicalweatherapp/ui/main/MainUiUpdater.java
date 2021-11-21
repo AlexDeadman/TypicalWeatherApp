@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
 import com.example.typicalweatherapp.data.model.weather.Weather;
 import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
 import com.example.typicalweatherapp.data.model.weather.daily.Daily;
@@ -27,6 +28,7 @@ class MainUiUpdater {
     private final ActivityMainBinding binding;
     private final LayoutInflater layoutInflater;
     private final Weather weather;
+    private final FavouriteCity currentCity;
 
     private final BottomSheetMainBinding bottomSheet;
     private final UnitsFormatter formatter;
@@ -36,12 +38,13 @@ class MainUiUpdater {
         Context context,
         ActivityMainBinding binding,
         LayoutInflater layoutInflater,
-        Weather weather
-    ) {
+        Weather weather,
+        FavouriteCity currentCity) {
         this.context = context;
         this.binding = binding;
         this.layoutInflater = layoutInflater;
         this.weather = weather;
+        this.currentCity = currentCity;
 
         this.bottomSheet = this.binding.content.bottomSheet;
         this.formatter = new UnitsFormatter();
@@ -61,6 +64,7 @@ class MainUiUpdater {
 
     public void updateMainInfo() {
         formatter.updateTempUnits();
+        binding.content.textViewCity.setText(UiUtils.formatCityText(currentCity));
         binding.content.textViewTemperature.setText(
             context.getString(
                 formatter.getTempPlaceholderId(),

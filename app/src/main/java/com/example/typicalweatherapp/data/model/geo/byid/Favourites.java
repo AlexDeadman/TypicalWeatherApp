@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO check if class with list is necessary for serializing
 public class Favourites {
     private List<FavouriteCity> favouriteCities;
 

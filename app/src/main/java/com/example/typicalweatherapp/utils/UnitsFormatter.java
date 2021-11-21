@@ -28,7 +28,7 @@ public class UnitsFormatter {
     }
 
     public void updateTempUnits() {
-        isTempUnitsF = preferences.getBoolean(Constants.unitsTempPrefKey, false);
+        isTempUnitsF = preferences.getBoolean(Constants.UNITS_TEMP_PREF_KEY, false);
         if (isTempUnitsF) {
             tempPlaceholderId = R.string.temperature_f;
         } else {
@@ -44,7 +44,7 @@ public class UnitsFormatter {
     }
 
     public void updateSpeedUnits() {
-        isSpeedUnitsKmh = preferences.getBoolean(Constants.unitsSpeedPrefKey, false);
+        isSpeedUnitsKmh = preferences.getBoolean(Constants.UNITS_SPEED_PREF_KEY, false);
         if (isSpeedUnitsKmh) {
             speedPlaceholderId = R.string.wind_speed_km_h;
         } else {
@@ -60,7 +60,7 @@ public class UnitsFormatter {
     }
 
     public void updatePressureUnits() {
-        isPressureUnitsMmhg = preferences.getBoolean(Constants.unitsPressurePrefKey, false);
+        isPressureUnitsMmhg = preferences.getBoolean(Constants.UNITS_PRESSURE_PREF_KEY, false);
         if (isPressureUnitsMmhg) {
             pressurePlaceholderId = R.string.pressure_mmhg;
         } else {

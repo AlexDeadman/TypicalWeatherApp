@@ -1,6 +1,7 @@
 package com.example.typicalweatherapp.ui.addcity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,17 +9,22 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
+import com.example.typicalweatherapp.data.repository.FavouritesRepository;
 import com.example.typicalweatherapp.databinding.ActivityAddCityBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
+import com.example.typicalweatherapp.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,8 +35,9 @@ public class AddCityActivity extends BaseActivity {
     private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
 
-    @Inject
-    public Favourites favourites;
+    @Inject // TODO fix MVVM violation
+    public FavouritesRepository favouritesRepository;
+    private List<FavouriteCity> favouriteCities;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -51,19 +58,25 @@ public class AddCityActivity extends BaseActivity {
         });
 
         App.getAppComponent().inject(this);
+        favouriteCities = favouritesRepository.getFavouritesCities();
 
         viewModel.getFavouriteCity().observe(
             this,
             favouriteCity -> {
                 boolean exist = false;
-                for (FavouriteCity favCity : favourites.getFavouriteCities()) {
+                for (FavouriteCity favCity : favouriteCities) {
                     if (favCity.equals(favouriteCity)) {
                         exist = true;
                         break;
                     }
                 }
                 if (!exist) {
-                    favourites.getFavouriteCities().add(favouriteCity);
+                    favouriteCities.add(favouriteCity);
+                    if (favouriteCities.size() == 1) {
+                        SharedPreferences.Editor editor = App.getPreferences().edit();
+                        editor.putInt(Constants.CURRENT_CITY_INDEX_PREF_KEY, 0);
+                        editor.apply();
+                    }
                 }
             }
         );
@@ -71,8 +84,12 @@ public class AddCityActivity extends BaseActivity {
         CitiesAdapter.OnCityClickListener cityClickListener =
             geoname -> viewModel.fetchCity(geoname.getGeonameId());
 
-        CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>(), cityClickListener, favourites);
-        binding.recyclerViewCities.setAdapter(adapter);
+        CitiesAdapter adapter = new CitiesAdapter(new ArrayList<>(), cityClickListener);
+        RecyclerView recyclerView = binding.recyclerViewCities;
+        recyclerView.addItemDecoration(
+            new DividerItemDecoration(this, RecyclerView.VERTICAL)
+        );
+        recyclerView.setAdapter(adapter);
 
         viewModel.getCities().observe(
             this,
@@ -85,6 +102,12 @@ public class AddCityActivity extends BaseActivity {
                 }
             }
         );
+    }
+
+    @Override
+    protected void onStop() {
+        favouritesRepository.saveFavourites();
+        super.onStop();
     }
 
     @Override
@@ -105,6 +128,12 @@ public class AddCityActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                onBackPressed();
             }
         });
 

@@ -1,7 +1,6 @@
 package com.example.typicalweatherapp.ui.addcity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,10 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.data.model.geo.search.Geoname;
 import com.example.typicalweatherapp.databinding.ItemCityBinding;
 
@@ -23,15 +21,13 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     private ArrayList<Geoname> geonames;
     private final OnCityClickListener onClickListener;
-    private final Favourites favourites;
 
     public CitiesAdapter(
         ArrayList<Geoname> geonames,
-        OnCityClickListener onClickListener,
-        Favourites favourites) {
+        OnCityClickListener onClickListener
+    ) {
         this.geonames = geonames;
         this.onClickListener = onClickListener;
-        this.favourites = favourites;
     }
 
     @NonNull
@@ -60,20 +56,19 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         }
         binding.textViewCityDetails.setText(cityDetails);
 
-        ImageView star = binding.imageViewStar;
-
         // TODO mark cities that already favourite
-        // TODO fix star views reuse
+        // TODO fix view reuse (mb replace icons with styled checkboxes)
 
-        star.setOnClickListener(v -> {
+        LinearLayoutCompat root = binding.getRoot();
+        root.setOnClickListener(v -> {
             onClickListener.onCityClick(geoname);
-            star.setImageDrawable(
+            binding.imageViewStar.setImageDrawable(
                 AppCompatResources.getDrawable(
                     holder.itemView.getContext(),
                     R.drawable.ic_baseline_star
                 )
             );
-            star.setClickable(false);
+            root.setClickable(false);
         });
     }
 

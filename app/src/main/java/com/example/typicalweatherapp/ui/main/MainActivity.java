@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
+import com.example.typicalweatherapp.data.repository.FavouritesRepository;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
@@ -29,7 +29,6 @@ import com.example.typicalweatherapp.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -48,23 +47,23 @@ public class MainActivity extends AppCompatActivity
     private MainUiUpdater uiUpdater;
     private boolean loadError;
 
-    @Inject
-    public Favourites favourites;
-    @Inject
-    public Gson gson;
+    @Inject // TODO fix MVVM violation
+    public FavouritesRepository favouritesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        UiUtils.updateTheme();
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        App.getAppComponent().inject(this);
+
         initBottomSheet();
 
         App.getPreferences().registerOnSharedPreferenceChangeListener(this);
-
-        UiUtils.updateTheme();
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         updateWeather();
@@ -101,20 +100,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         binding.drawerLayout.close();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        App.getAppComponent().inject(this);
-
-        SharedPreferences.Editor editor = App.getPreferences().edit();
-
-        String favouriteCitiesJson = gson.toJson(favourites);
-        editor.putString(Constants.favouriteCitiesPrefKey, favouriteCitiesJson);
-
-        editor.apply();
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @Override
@@ -134,19 +120,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (uiUpdater != null) {
-            if (key.equals(Constants.unitsTempPrefKey)) {
+            if (key.equals(Constants.UNITS_TEMP_PREF_KEY)) {
                 uiUpdater.updateMainInfo();
                 uiUpdater.updateWeatherCards();
                 uiUpdater.updateDayTempCard();
             }
 
-            if (key.equals(Constants.unitsSpeedPrefKey)) {
+            if (key.equals(Constants.UNITS_SPEED_PREF_KEY)) {
                 uiUpdater.updateDayWindSpeed();
             }
 
-            if (key.equals(Constants.unitsPressurePrefKey)) {
+            if (key.equals(Constants.UNITS_PRESSURE_PREF_KEY)) {
                 uiUpdater.updateDayPressure();
             }
+        }
+
+        // TODO does not work
+        if (key.equals(Constants.CURRENT_CITY_INDEX_PREF_KEY)) {
+            viewModel.fetchWeather();
         }
     }
 
@@ -161,6 +152,7 @@ public class MainActivity extends AppCompatActivity
         bottomSheetLayout.setLayoutTransition(transition);
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+        bottomSheetBehavior.setDraggable(false);
 
         LinearLayoutCompat dayWeatherLayout = bottomSheetBinding.layoutDayWeatherCards;
 
@@ -204,6 +196,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     void updateWeather() {
+        viewModel.fetchWeather();
+
+        viewModel.getNoCurrentCity().observe(
+            this,
+            value -> {
+                if (value) {
+                    Toast.makeText(this, R.string.city_not_chosen, Toast.LENGTH_SHORT).show();
+                    bottomSheetBinding.progressBar.setVisibility(View.INVISIBLE);
+                    startActivity(new Intent(this, AddCityActivity.class));
+                }
+            }
+        );
+
         viewModel.getLoadError().observe(this, value -> loadError = value);
 
         if (!loadError) {
@@ -216,10 +221,12 @@ public class MainActivity extends AppCompatActivity
                         this,
                         binding,
                         getLayoutInflater(),
-                        weather
+                        weather,
+                        favouritesRepository.getCurrentCity()
                     );
-
                     uiUpdater.updateAll();
+
+                    bottomSheetBehavior.setDraggable(true);
                 }
             );
         } else {

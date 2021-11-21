@@ -8,23 +8,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.geo.byid.AlternateName;
 import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.databinding.ItemFavouriteBinding;
-import com.example.typicalweatherapp.ui.addcity.CitiesAdapter;
+import com.example.typicalweatherapp.utils.UiUtils;
+
+import java.util.List;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
 
-    private final Favourites favourites;
-    private final OnFavouriteClickListener onClickListener;
+    private final List<FavouriteCity> favouriteCities;
+    private final OnFavouriteClickListener onFavouriteClickListener;
+    private final OnRemoveFavouriteClickListener onRemoveFavouriteClickListener;
 
     public FavouriteAdapter(
-        Favourites favourites,
-        OnFavouriteClickListener onClickListener
+        List<FavouriteCity> favouriteCities,
+        OnFavouriteClickListener onFavouriteClickListener, OnRemoveFavouriteClickListener onRemoveFavouriteClickListener
     ) {
-        this.favourites = favourites;
-        this.onClickListener = onClickListener;
+        this.favouriteCities = favouriteCities;
+        this.onFavouriteClickListener = onFavouriteClickListener;
+        this.onRemoveFavouriteClickListener = onRemoveFavouriteClickListener;
     }
 
     @NonNull
@@ -38,29 +40,23 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FavouriteCity favouriteCity = favourites.getFavouriteCities().get(position);
+        FavouriteCity favouriteCity = favouriteCities.get(position);
         ItemFavouriteBinding binding = holder.binding;
 
-        String textCity = "";
-        for (AlternateName altName : favouriteCity.getAlternateNames()) {
-            String lang = altName.getLang();
-            if (lang != null && lang.equals("en")) { // TODO Language hardcoded
-                textCity = altName.getName();
-            }
-        }
-        if (textCity.isEmpty()) {
-            textCity = favouriteCity.getToponymName();
-        }
-        binding.textViewCity.setText(textCity);
+        binding.textViewCity.setText(UiUtils.formatCityText(favouriteCity));
+
+        binding.getRoot().setOnClickListener(
+            v -> onFavouriteClickListener.onFavouriteClickListener(position)
+        );
 
         binding.cardRemoveFavourite.setOnClickListener(
-            v -> onClickListener.onFavouriteClick(favouriteCity, position, this)
+            v -> onRemoveFavouriteClickListener.onRemoveFavouriteClick(favouriteCity, this)
         );
     }
 
     @Override
     public int getItemCount() {
-        return favourites.getFavouriteCities().size();
+        return favouriteCities.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,6 +70,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
     }
 
     interface OnFavouriteClickListener {
-        void onFavouriteClick(FavouriteCity favourite, int position, FavouriteAdapter adapter);
+        void onFavouriteClickListener(int position);
+    }
+
+    interface OnRemoveFavouriteClickListener {
+        void onRemoveFavouriteClick(FavouriteCity favourite, FavouriteAdapter adapter);
     }
 }

@@ -9,6 +9,8 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
+import com.example.typicalweatherapp.data.model.geo.byid.AlternateName;
+import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
 import com.example.typicalweatherapp.data.model.weather.WeatherInfo;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +25,20 @@ public class UiUtils {
         return new SimpleDateFormat("d MMMM", new Locale("en")).format(
             new Date(dt * 1000L)
         );
+    }
+
+    public static String formatCityText(@NonNull FavouriteCity favouriteCity) {
+        String textCity = "";
+        for (AlternateName altName : favouriteCity.getAlternateNames()) {
+            String lang = altName.getLang();
+            if (lang != null && lang.equals("en")) { // TODO Language hardcoded
+                textCity = altName.getName();
+            }
+        }
+        if (textCity.isEmpty()) {
+            textCity = favouriteCity.getToponymName();
+        }
+        return textCity;
     }
 
     public static Drawable getWeatherDrawable(Context context, @NonNull WeatherInfo weatherInfo) {
