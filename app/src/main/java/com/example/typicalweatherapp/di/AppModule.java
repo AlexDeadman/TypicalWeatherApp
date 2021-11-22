@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.api.GnApiService;
 import com.example.typicalweatherapp.api.OwmApiService;
-import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
 import com.example.typicalweatherapp.data.model.geo.byid.Favourites;
 import com.example.typicalweatherapp.utils.Constants;
 import com.google.gson.Gson;

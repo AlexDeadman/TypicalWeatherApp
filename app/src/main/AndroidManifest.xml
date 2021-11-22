@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TypicalWeatherApp"
         android:usesCleartextTraffic="true">
+        <!-- TODO fix http for current min API level-->
 
         <activity
             android:name=".ui.main.MainActivity"

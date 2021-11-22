@@ -1,5 +1,6 @@
 package com.example.typicalweatherapp.ui.addcity;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,8 +10,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
 import com.example.typicalweatherapp.data.model.geo.search.CitySearchResult;
+import com.example.typicalweatherapp.data.repository.FavouritesRepository;
 import com.example.typicalweatherapp.data.repository.GeonamesRepository;
 import com.example.typicalweatherapp.utils.Constants;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,15 +28,18 @@ public class AddCityViewModel extends ViewModel {
 
     @Inject
     public GeonamesRepository geonamesRepository;
+    @Inject
+    public FavouritesRepository favouritesRepository;
+    private final List<FavouriteCity> favouriteCities;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private final MutableLiveData<CitySearchResult> mCities = new MutableLiveData<>();
-    private final MutableLiveData<FavouriteCity> mFavouriteCity = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadError = new MutableLiveData<>();
 
     public AddCityViewModel() {
         App.getAppComponent().inject(this);
+        favouriteCities = favouritesRepository.getFavouritesCities();
     }
 
     public void fetchCities(String query) {
@@ -72,7 +79,22 @@ public class AddCityViewModel extends ViewModel {
                     @Override
                     public void onSuccess(FavouriteCity favouriteCity) {
                         loadError.setValue(false);
-                        mFavouriteCity.setValue(favouriteCity);
+
+                        boolean exist = false;
+                        for (FavouriteCity favCity : favouriteCities) {
+                            if (favCity.equals(favouriteCity)) {
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) {
+                            favouriteCities.add(favouriteCity);
+                            if (favouriteCities.size() == 1) {
+                                SharedPreferences.Editor editor = App.getPreferences().edit();
+                                editor.putInt(Constants.CURRENT_CITY_INDEX_PREF_KEY, 0);
+                                editor.apply();
+                            }
+                        }
                     }
 
                     @Override
@@ -85,9 +107,14 @@ public class AddCityViewModel extends ViewModel {
         );
     }
 
+    void saveFavourites() {
+        favouritesRepository.saveFavourites();
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
+
         if (compositeDisposable != null) {
             compositeDisposable.clear();
             compositeDisposable = null;
@@ -96,10 +123,6 @@ public class AddCityViewModel extends ViewModel {
 
     public LiveData<CitySearchResult> getCities() {
         return mCities;
-    }
-
-    public LiveData<FavouriteCity> getFavouriteCity() {
-        return mFavouriteCity;
     }
 
     public LiveData<Boolean> getLoadError() {

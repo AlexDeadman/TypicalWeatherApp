@@ -31,7 +31,8 @@ public class UiUtils {
         String textCity = "";
         for (AlternateName altName : favouriteCity.getAlternateNames()) {
             String lang = altName.getLang();
-            if (lang != null && lang.equals("en")) { // TODO Language hardcoded
+            // TODO Language hardcoded
+            if (lang != null && lang.equals("en")) {
                 textCity = altName.getName();
             }
         }

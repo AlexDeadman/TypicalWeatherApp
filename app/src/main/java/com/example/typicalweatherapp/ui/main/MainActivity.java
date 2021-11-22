@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.repository.FavouritesRepository;
+import com.example.typicalweatherapp.data.model.weather.Weather;
 import com.example.typicalweatherapp.databinding.ActivityMainBinding;
 import com.example.typicalweatherapp.databinding.BottomSheetMainBinding;
 import com.example.typicalweatherapp.ui.about.AboutActivity;
@@ -30,8 +31,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
-import javax.inject.Inject;
-
 public class MainActivity extends AppCompatActivity
     implements
     NavigationView.OnNavigationItemSelectedListener,
@@ -39,16 +38,15 @@ public class MainActivity extends AppCompatActivity
 
     private ActivityMainBinding binding;
 
-    private BottomSheetMainBinding bottomSheetBinding;
     private BottomSheetBehavior<LinearLayoutCompat> bottomSheetBehavior;
     private MaterialButton weekForecastButton;
+    private ProgressBar progressBar;
 
     private MainViewModel viewModel;
-    private MainUiUpdater uiUpdater;
+    private Weather mWeather;
     private boolean loadError;
 
-    @Inject // TODO fix MVVM violation
-    public FavouritesRepository favouritesRepository;
+    private MainWeatherUiUpdater weatherUiUpdater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +57,22 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        App.getAppComponent().inject(this);
-
         initBottomSheet();
-
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
-
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        updateWeather();
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
+
+        progressBar = binding.content.progressBar;
 
         binding.content.buttonMenu.setOnClickListener(v -> binding.drawerLayout.open());
         binding.content.buttonAddCity.setOnClickListener(v ->
             startActivity(new Intent(this, AddCityActivity.class))
         );
+
+        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        updateWeather();
     }
 
     @Override
@@ -119,30 +117,30 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (uiUpdater != null) {
+        if (weatherUiUpdater != null) {
             if (key.equals(Constants.UNITS_TEMP_PREF_KEY)) {
-                uiUpdater.updateMainInfo();
-                uiUpdater.updateWeatherCards();
-                uiUpdater.updateDayTempCard();
+                weatherUiUpdater.updateMainInfo();
+                weatherUiUpdater.updateWeatherCards();
+                weatherUiUpdater.updateDayTempCard();
             }
 
             if (key.equals(Constants.UNITS_SPEED_PREF_KEY)) {
-                uiUpdater.updateDayWindSpeed();
+                weatherUiUpdater.updateDayWindSpeed();
             }
 
             if (key.equals(Constants.UNITS_PRESSURE_PREF_KEY)) {
-                uiUpdater.updateDayPressure();
+                weatherUiUpdater.updateDayPressure();
             }
         }
 
-        // TODO does not work
         if (key.equals(Constants.CURRENT_CITY_INDEX_PREF_KEY)) {
+            progressBar.setVisibility(View.VISIBLE);
             viewModel.fetchWeather();
         }
     }
 
     private void initBottomSheet() {
-        bottomSheetBinding = binding.content.bottomSheet;
+        BottomSheetMainBinding bottomSheetBinding = binding.content.bottomSheet;
         weekForecastButton = bottomSheetBinding.buttonWeekForecast;
 
         LinearLayoutCompat bottomSheetLayout = bottomSheetBinding.getRoot();
@@ -183,14 +181,9 @@ public class MainActivity extends AppCompatActivity
 
         weekForecastButton.setOnClickListener(v -> {
             if (!loadError) {
-                viewModel.getWeather().observe(
-                    this,
-                    weather -> {
-                        Intent intent = new Intent(this, WeekForecastActivity.class);
-                        intent.putExtra("dailies", weather.getDaily());
-                        startActivity(intent);
-                    }
-                );
+                Intent intent = new Intent(this, WeekForecastActivity.class);
+                intent.putExtra("dailies", mWeather.getDaily());
+                startActivity(intent);
             }
         });
     }
@@ -198,12 +191,23 @@ public class MainActivity extends AppCompatActivity
     void updateWeather() {
         viewModel.fetchWeather();
 
+        weatherUiUpdater = new MainWeatherUiUpdater(
+            this,
+            binding,
+            getLayoutInflater()
+        );
+
         viewModel.getNoCurrentCity().observe(
             this,
             value -> {
                 if (value) {
                     Toast.makeText(this, R.string.city_not_chosen, Toast.LENGTH_SHORT).show();
-                    bottomSheetBinding.progressBar.setVisibility(View.INVISIBLE);
+
+                    bottomSheetBehavior.setDraggable(false);
+                    weekForecastButton.setVisibility(View.INVISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    weatherUiUpdater.clearAll();
+
                     startActivity(new Intent(this, AddCityActivity.class));
                 }
             }
@@ -215,22 +219,18 @@ public class MainActivity extends AppCompatActivity
             viewModel.getWeather().observe(
                 this,
                 weather -> {
-                    weekForecastButton.setVisibility(View.VISIBLE);
-
-                    uiUpdater = new MainUiUpdater(
-                        this,
-                        binding,
-                        getLayoutInflater(),
-                        weather,
-                        favouritesRepository.getCurrentCity()
-                    );
-                    uiUpdater.updateAll();
+                    mWeather = weather;
+                    weatherUiUpdater.setWeather(mWeather);
+                    weatherUiUpdater.setCurrentCity(viewModel.getCurrentCity());
 
                     bottomSheetBehavior.setDraggable(true);
+                    weekForecastButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    weatherUiUpdater.updateAll();
                 }
             );
         } else {
-            bottomSheetBinding.progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
         }
     }

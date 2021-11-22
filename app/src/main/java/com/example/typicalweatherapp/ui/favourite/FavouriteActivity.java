@@ -5,24 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
 import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.repository.FavouritesRepository;
 import com.example.typicalweatherapp.databinding.ActivityFavouriteBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class FavouriteActivity extends BaseActivity {
 
     private ActivityFavouriteBinding binding;
 
-    @Inject // TODO fix MVVM violation
-    public FavouritesRepository favouritesRepository;
+    private FavouriteViewModel viewModel;
     private List<FavouriteCity> favouriteCities;
 
     @Override
@@ -34,13 +30,16 @@ public class FavouriteActivity extends BaseActivity {
 
         initActionBar(getSupportActionBar(), getString(R.string.favourite));
 
-        App.getAppComponent().inject(this);
-        favouriteCities = favouritesRepository.getFavouritesCities();
-
-        checkFavouritesCount();
+        viewModel = new ViewModelProvider(this).get(FavouriteViewModel.class);
 
         FavouriteAdapter.OnFavouriteClickListener onFavouriteClickListener =
-            position -> favouritesRepository.setCurrentCity(position);
+            position -> {
+                viewModel.setCurrentCity(position);
+                finish();
+            };
+
+        favouriteCities = viewModel.getFavouriteCities();
+        checkFavouritesCount();
 
         @SuppressLint("NotifyDataSetChanged")
         FavouriteAdapter.OnRemoveFavouriteClickListener onRemoveFavouriteClickListener =
@@ -50,19 +49,24 @@ public class FavouriteActivity extends BaseActivity {
                 checkFavouritesCount();
             };
 
-        FavouriteAdapter adapter = new FavouriteAdapter(favouriteCities, onFavouriteClickListener, onRemoveFavouriteClickListener);
+        FavouriteAdapter adapter = new FavouriteAdapter(
+            favouriteCities,
+            onFavouriteClickListener,
+            onRemoveFavouriteClickListener
+        );
         binding.recyclerViewFavourites.setAdapter(adapter);
     }
 
     @Override
     protected void onStop() {
-        favouritesRepository.saveFavourites();
+        viewModel.saveFavourites();
         super.onStop();
     }
 
     private void checkFavouritesCount() {
         if (favouriteCities.isEmpty()) {
             binding.textViewEmpty.setVisibility(View.VISIBLE);
+            viewModel.setCurrentCity(-1);
         }
     }
 }

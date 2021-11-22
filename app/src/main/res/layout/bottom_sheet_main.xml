@@ -20,16 +20,10 @@
         android:background="@drawable/divider_background" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_weather_cards"
+        android:id="@+id/layout_hourly_weather_cards"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:orientation="horizontal">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

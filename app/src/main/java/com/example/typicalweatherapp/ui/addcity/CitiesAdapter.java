@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -75,10 +74,6 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return geonames.size();
-    }
-
-    public ArrayList<Geoname> getGeonames() {
-        return geonames;
     }
 
     public void setGeonames(ArrayList<Geoname> geonames) {

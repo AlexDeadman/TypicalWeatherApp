@@ -1,7 +1,6 @@
 package com.example.typicalweatherapp.ui.addcity;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,35 +8,21 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.typicalweatherapp.App;
 import com.example.typicalweatherapp.R;
-import com.example.typicalweatherapp.data.model.geo.byid.FavouriteCity;
-import com.example.typicalweatherapp.data.repository.FavouritesRepository;
 import com.example.typicalweatherapp.databinding.ActivityAddCityBinding;
 import com.example.typicalweatherapp.ui.BaseActivity;
-import com.example.typicalweatherapp.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
 
 public class AddCityActivity extends BaseActivity {
 
-    private static final String TAG = "AddCityActivity";
-
     private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
-
-    @Inject // TODO fix MVVM violation
-    public FavouritesRepository favouritesRepository;
-    private List<FavouriteCity> favouriteCities;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -56,30 +41,6 @@ public class AddCityActivity extends BaseActivity {
                 Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         });
-
-        App.getAppComponent().inject(this);
-        favouriteCities = favouritesRepository.getFavouritesCities();
-
-        viewModel.getFavouriteCity().observe(
-            this,
-            favouriteCity -> {
-                boolean exist = false;
-                for (FavouriteCity favCity : favouriteCities) {
-                    if (favCity.equals(favouriteCity)) {
-                        exist = true;
-                        break;
-                    }
-                }
-                if (!exist) {
-                    favouriteCities.add(favouriteCity);
-                    if (favouriteCities.size() == 1) {
-                        SharedPreferences.Editor editor = App.getPreferences().edit();
-                        editor.putInt(Constants.CURRENT_CITY_INDEX_PREF_KEY, 0);
-                        editor.apply();
-                    }
-                }
-            }
-        );
 
         CitiesAdapter.OnCityClickListener cityClickListener =
             geoname -> viewModel.fetchCity(geoname.getGeonameId());
@@ -106,7 +67,7 @@ public class AddCityActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        favouritesRepository.saveFavourites();
+        viewModel.saveFavourites();
         super.onStop();
     }
 

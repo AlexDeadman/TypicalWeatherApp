@@ -29,7 +29,7 @@ public class MainViewModel extends ViewModel {
 
     @Inject
     public FavouritesRepository favouritesRepository;
-    private final FavouriteCity currentCity;
+    private FavouriteCity currentCity;
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
@@ -39,10 +39,11 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel() {
         App.getAppComponent().inject(this);
-        currentCity = favouritesRepository.getCurrentCity();
     }
 
     public void fetchWeather() {
+        currentCity = favouritesRepository.getCurrentCity();
+
         if (currentCity.getGeonameId() != null) { // if current city not set
             noCurrentCity.setValue(false);
             disposable.add(weatherRepository
@@ -95,5 +96,9 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Boolean> getNoCurrentCity() {
         return noCurrentCity;
+    }
+
+    public FavouriteCity getCurrentCity() {
+        return currentCity;
     }
 }
